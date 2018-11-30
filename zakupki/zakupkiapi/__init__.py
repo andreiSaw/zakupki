@@ -1,1 +1,1 @@
-from zakupki.zakupkiapi.poisk import find_and_save_search, parse_search_output, save_purchace_pages
+from zakupki.zakupkiapi.poisk import search_save, load_JSON_data, dump_JSON_data, _parse_search_page
