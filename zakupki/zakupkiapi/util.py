@@ -4,21 +4,21 @@ import os
 import requests
 from bs4 import BeautifulSoup
 
-HEADERS = {
+_HEADERS = {
     'Referer': 'http://www.kinopoisk.ru',
     'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.9; rv:45.0) Gecko/20100101 Firefox/45.0'
 }
 QUERY = "default"
-SEARCH_FILEPATH = "./../data/%s/search/"
-PURCHACE_FILEPATH = "./../data/%s/purchase/"
+_SEARCH_FOLDER = "search/"
 PAGES_LIMIT = 10
 FILENAME = "page_%s.html"
-DBNAME = "db.json"
-STOPLISTNAME = "./../data/stopwords.json"
-DATADIR = "./../data/%s/"
+_STOPLISTNAME = "stopwords.json"
+_DATA_FOLDER = "./../data/%s/"
+_PURCHACE_INFO = "http://zakupki.gov.ru/223/purchase/public/purchase/info/%s.html?regNumber=%s"
+_TAB = "common-info"
+_DB_NAME="test.json"
 
-
-def _get_session(headers=HEADERS):
+def _get_session(headers=_HEADERS):
     """
     establishing session
     :param headers:
@@ -41,7 +41,7 @@ def _checkDirectory_if_not_create(directory):
 
 
 def getStopList():
-    filepath = STOPLISTNAME
+    filepath = _STOPLISTNAME
     if not os.path.isfile(filepath):
         return []
     with open(filepath, "r") as json_data:
@@ -51,8 +51,8 @@ def getStopList():
         return []
 
 
-def load_JSON_data(filename=DBNAME, query=QUERY):
-    filepath = (DATADIR + filename) % query
+def load_JSON_data(filename, query=QUERY):
+    filepath = (_DATA_FOLDER + filename) % query
     if not os.path.isfile(filepath):
         return []
     with open(filepath, "r") as json_data:
@@ -62,8 +62,8 @@ def load_JSON_data(filename=DBNAME, query=QUERY):
         return []
 
 
-def dump_JSON_data(statelist, filename=DBNAME, query=QUERY):
-    filepath = (DATADIR + filename) % query
+def dump_JSON_data(statelist, filename=_DB_NAME, query=QUERY):
+    filepath = (_DATA_FOLDER + filename) % query
     with open(filepath, "w", encoding="UTF-8") as f:
         json.dump(statelist, f)
 
@@ -83,3 +83,15 @@ def load_search_page(page, session, query=QUERY):
 def load_page(p_link, session):
     request = session.get(p_link)
     return request.text
+
+
+def get_search_folder_path(query=QUERY):
+    return (_DATA_FOLDER % query) + _SEARCH_FOLDER
+
+
+def get_stoplist_path(query=QUERY):
+    return (_DATA_FOLDER % query) + _STOPLISTNAME
+
+
+def get_purchase_tab(p_id=QUERY, tab=_TAB):
+    return _PURCHACE_INFO % (tab, p_id)
