@@ -33,16 +33,18 @@ def search_save(s, p_limit=PAGES_LIMIT, query=QUERY):
 
 
 def parse_lots(p_id, session):
-    page = load_page(get_purchase_tab(p_id, tab="lots-list"), session)
+    p_link=get_purchase_tab(p_id, tab="lot-list")
+    page = load_page(p_link, session)
     soup = BeautifulSoup(page, features="lxml")
-    lots = soup.find('table', {'id': 'lot'}).find_all('tr')
+    trs = soup.find('table', {'id': 'lot'}).find('tbody').find_all('tr')
     lots_num = 0
-    for row in lots:
-        row = [el.text.replace("\n", "").replace("\t", "").replace("\r", "") for el in row.find_all(['td', 'th']) if
+    lots=[]
+    for row in trs:
+        cells = [el.text.replace("\n", "").replace("\t", "").replace("\r", "") for el in row.find_all(['td', 'th']) if
                el.text]
-        if len(row) > 1:
+        if len(cells) == 6:
             lots_num += 1
-            lot = {"name": row[1], "category": row[5], "price": row[3]}
+            lot = {"name": cells[1], "category": cells[5], "price": cells[3]}
             lots.append(lot)
     return {"lots": lots, 'lots_num': lots_num}
 
@@ -118,15 +120,3 @@ def parse_search_entries(session, query=QUERY):
     dump_JSON_data(purchase_list, query=query)
     return purchase_list
 
-
-def isauto(p_id, session):
-    page = load_page(get_purchase_tab(p_id, tab="lot-list"), session)
-    soup = BeautifulSoup(page, features="lxml")
-    lots = soup.find('table', {'id': 'lot'}).find_all('tr')
-    for row in lots:
-        row = [el.text.replace("\n", "").replace("\t", "").replace("\r", "") for el in row.find_all(['td', 'th']) if
-               el.text]
-        if len(row) > 1:
-            if '29.10.2' in row[5]:
-                return True
-    return False

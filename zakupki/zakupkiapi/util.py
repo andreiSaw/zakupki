@@ -95,3 +95,8 @@ def get_stoplist_path(query=QUERY):
 
 def get_purchase_tab(p_id=QUERY, tab=_TAB):
     return _PURCHACE_INFO % (tab, p_id)
+
+def isauto(lot):
+    if '29.10.2' in lot['category']:
+        return True
+    return False
