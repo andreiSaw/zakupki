@@ -1,5 +1,6 @@
 import json
 import os
+import re
 
 import requests
 from bs4 import BeautifulSoup
@@ -16,7 +17,10 @@ _STOPLISTNAME = "stopwords.json"
 _DATA_FOLDER = "./../data/%s/"
 _PURCHACE_INFO = "http://zakupki.gov.ru/223/purchase/public/purchase/info/%s.html?regNumber=%s"
 _TAB = "common-info"
-_DB_NAME="test.json"
+_DB_NAME = "test.json"
+LEN_LOT_LIST = 6
+LOTS_DB_NAME = "lots.json"
+
 
 def _get_session(headers=_HEADERS):
     """
@@ -51,8 +55,8 @@ def getStopList():
         return []
 
 
-def load_JSON_data(filename, query=QUERY):
-    filepath = (_DATA_FOLDER + filename) % query
+def load_JSON_data(filename=_DB_NAME, q=QUERY):
+    filepath = get_filename(q=q, filename=filename)
     if not os.path.isfile(filepath):
         return []
     with open(filepath, "r") as json_data:
@@ -62,8 +66,8 @@ def load_JSON_data(filename, query=QUERY):
         return []
 
 
-def dump_JSON_data(statelist, filename=_DB_NAME, query=QUERY):
-    filepath = (_DATA_FOLDER + filename) % query
+def dump_JSON_data(statelist, filename=_DB_NAME, q=QUERY):
+    filepath = get_filename(q=q, filename=filename)
     with open(filepath, "w", encoding="UTF-8") as f:
         json.dump(statelist, f)
 
@@ -74,10 +78,17 @@ def _contain_purchase_data(text):
     return purchase_list is not None
 
 
-def load_search_page(page, session, query=QUERY):
+def load_search_page(p, s, q=QUERY):
+    """
+
+    :param p: page number
+    :param s: session
+    :param q: query
+    :return: text
+    """
     url = 'http://zakupki.gov.ru/epz/order/quicksearch/search_eis.html?searchString=%s&pageNumber=%d&sortDirection=false&recordsPerPage=_10&showLotsInfoHidden=false&fz223=on&pc=on&currencyId=-1&regionDeleted=false&sortBy=UPDATE_DATE' % (
-        query, page)
-    return load_page(url, session)
+        q, p)
+    return load_page(url, s)
 
 
 def load_page(p_link, session):
@@ -85,18 +96,117 @@ def load_page(p_link, session):
     return request.text
 
 
-def get_search_folder_path(query=QUERY):
-    return (_DATA_FOLDER % query) + _SEARCH_FOLDER
+def get_filename(filename, q=QUERY):
+    return (_DATA_FOLDER % q) + filename
 
 
-def get_stoplist_path(query=QUERY):
-    return (_DATA_FOLDER % query) + _STOPLISTNAME
+def get_search_folder_path(q=QUERY):
+    return (_DATA_FOLDER % q) + _SEARCH_FOLDER
 
 
-def get_purchase_tab(p_id=QUERY, tab=_TAB):
+def get_stoplist_path(q=QUERY):
+    return (_DATA_FOLDER % q) + _STOPLISTNAME
+
+
+def get_purchase_tab(p_id, tab=_TAB):
     return _PURCHACE_INFO % (tab, p_id)
+
 
 def isauto(lot):
     if '29.10.2' in lot['category']:
         return True
     return False
+
+
+def clear_text(content):
+    return content.replace("\n", "").replace("\t", "").replace("\r", "")
+
+
+def clear_price(content):
+    numbers = re.findall('\d+', content)
+    return "".join(numbers)
+
+
+def get_id_from_url(content):
+    return content[content.find("regNumber=") + len("regNumber="):]
+
+
+def clear_purchace_row(content, element):
+    element[re.sub(' +', ' ', content[0])] = re.sub(' +', ' ', content[1])
+
+
+def _parse_search_page(filepath, session):
+    """
+    Parsing one single page to retrieve all data (purchase url, id, etc.)
+    :param filepath:  saved page path
+    :param session:
+    :return: results[] represents all search entries from that page
+    """
+    results = []
+    text = _read_file(filepath)
+
+    soup = BeautifulSoup(text, features="lxml")
+    purchase_list = soup.find('div', {'class': 'parametrs margBtm10'})
+    items = purchase_list.find_all('div', {'class': ['registerBox registerBoxBank margBtm20']})
+    for item in items:
+        p_link = item.find('td', {'class': 'descriptTenderTd'}).find('a').get('href')
+        p_id = get_id_from_url(p_link)
+
+        # TODO parse purchase online
+        temp_item = {
+            'purchase_link': p_link,
+            'purchase_id': p_id
+        }
+        ppp = parse_purchase_page(p_id, session)
+        temp_item.update(ppp)
+        results.append(temp_item)
+        print("Parsed %s page" % p_id)
+    return results
+
+
+def parse_purchase_page(p_id, session):
+    """
+    Walk through purchase page and take first 3 divs then asks to get lots
+    :param p_link: puchase link
+    :param session:
+    :return: dict element represents purchase
+    """
+    p_link = get_purchase_tab(p_id)
+    page = load_page(p_link, session)
+    soup = BeautifulSoup(page, features="lxml")
+    divs = soup.find('div', {'class': "contentTabBoxBlock"}).find_all('div', {'class': "noticeTabBoxWrapper"})
+    element = {}
+    i = 0
+    for div in divs:
+        trs = div.find_all('tr')
+        for tr in trs:
+            row = [clear_text(el.text) for el in tr.find_all(['td', 'th']) if el.text]
+            if len(row) > 1:
+                clear_purchace_row(row, element)
+        i += 1
+        if i > 2:
+            break
+    element.update(parse_lots(p_id, session))
+    return element
+
+
+def parse_lots(p_id, session):
+    """
+    Walk through purchase page and parse lots tab
+    :param p_id: purchase id
+    :param session:
+    :return: dict {lots[],lots_num}
+    """
+    p_link = get_purchase_tab(p_id, tab="lot-list")
+    page = load_page(p_link, session)
+    soup = BeautifulSoup(page, features="lxml")
+    trs = soup.find('table', {'id': 'lot'}).find('tbody').find_all('tr')
+    lots_num = 0
+    lots = []
+    for row in trs:
+        cells = [clear_text(el.text) for el in row.find_all(['td', 'th']) if el.text]
+        if len(cells) == LEN_LOT_LIST:
+            lots_num += 1
+            lot = {"name": cells[1], "category": cells[5], "price": clear_price(cells[3])}
+            lots.append(lot)
+    return {"lots": lots, 'lots_num': lots_num}
