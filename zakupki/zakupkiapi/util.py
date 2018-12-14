@@ -10,9 +10,7 @@ _HEADERS = {
     'Referer': 'http://www.kinopoisk.ru',
     'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.9; rv:45.0) Gecko/20100101 Firefox/45.0'
 }
-QUERY = "default"
 _SEARCH_FOLDER = "search/"
-PAGES_LIMIT = 10
 FILENAME = "page_%s.html"
 _STOPLISTNAME = "stopwords.json"
 _DATA_FOLDER = "./../data/%s/"
@@ -50,27 +48,28 @@ def getStopList():
     if not os.path.isfile(filepath):
         return []
     with open(filepath, "r") as json_data:
-        statelist = json.load(json_data)
-        if isinstance(statelist, list):
-            return statelist
+        data = json.load(json_data)
+        if isinstance(data, list):
+            return data
         return []
 
 
-def load_JSON_data(filename=_DB_NAME, q=QUERY):
+def load_JSON_data(q, filename=_DB_NAME):
     filepath = get_filename(q=q, filename=filename)
     if not os.path.isfile(filepath):
         return []
     with open(filepath, "r") as json_data:
-        statelist = json.load(json_data)
-        if isinstance(statelist, list):
-            return statelist
+        data = json.load(json_data)
+        if isinstance(data, list):
+            return data
         return []
 
 
-def dump_JSON_data(statelist, filename=_DB_NAME, q=QUERY):
+def dump_JSON_data(data, q, filename=_DB_NAME):
+    _checkDirectory_if_not_create(get_query_dir(q))
     filepath = get_filename(q=q, filename=filename)
     with open(filepath, "w", encoding="UTF-8") as f:
-        json.dump(statelist, f)
+        json.dump(data, f)
 
 
 def _contain_purchase_data(text):
@@ -79,7 +78,7 @@ def _contain_purchase_data(text):
     return purchase_list is not None
 
 
-def load_search_page(p, s, q=QUERY):
+def load_search_page(q, p, s):
     """
 
     :param p: page number
@@ -97,16 +96,20 @@ def load_page(p_link, session):
     return request.text
 
 
-def get_filename(filename, q=QUERY):
-    return (_DATA_FOLDER % q) + filename
+def get_query_dir(q):
+    return _DATA_FOLDER % q
 
 
-def get_search_folder_path(q=QUERY):
-    return (_DATA_FOLDER % q) + _SEARCH_FOLDER
+def get_filename(filename, q):
+    return get_query_dir(q) + filename
 
 
-def get_stoplist_path(q=QUERY):
-    return (_DATA_FOLDER % q) + _STOPLISTNAME
+def get_search_folder_path(q):
+    return get_query_dir(q) + _SEARCH_FOLDER
+
+
+def get_stoplist_path(q):
+    return get_query_dir(q) + _STOPLISTNAME
 
 
 def get_purchase_tab(p_id, tab=_TAB):
@@ -129,7 +132,7 @@ def clear_price(content):
     :param content:
     :return:
     """
-    numbers = re.findall('\d+', content)
+    numbers = re.findall(r'\d+', content)
     return "".join(numbers[:-1])
 
 
@@ -221,25 +224,20 @@ def parse_lots(p_id, session):
     return {"lots": lots, 'lots_num': lots_num}
 
 
-def preprocess(q, lst):
-    if lst is None:
-        lst = load_JSON_data(q)
+def preprocess(q, flag, data=None):
+    if data is None:
+        data = load_JSON_data(q)
     # lowers all
-    text_lower = [text.lower() for text in lst]
+    text_lower = [text.lower() for text in data]
     # delete punctuation
     text_letters = [''.join(c for c in s if c not in punctuation) for s in text_lower]
-    return text_letters
-
-
-def preprocess_eng(q=QUERY, lst=None):
-    text_letters = preprocess(q, lst)
-    # delete all besides letters
-    text_final = [re.sub(r'[^A-Za-z]+', ' ', x) for x in text_letters]
+    text_final = []
+    if flag == "EN":
+        text_final = [re.sub(r'[^A-Za-z]+', ' ', x) for x in text_letters]
+    elif flag == "RU":
+        text_final = [re.sub(r'[^А-Яа-я]+', ' ', x) for x in text_letters]
     return text_final
 
 
-def preprocess_rus(q=QUERY, lst=None):
-    text_letters = preprocess(q, lst)
-    # delete all besides letters
-    text_final = [re.sub(r'[^А-Яа-я]+', ' ', x) for x in text_letters]
-    return text_final
+def get_default_db_path(q):
+    return get_search_folder_path(q=q) + _DB_NAME

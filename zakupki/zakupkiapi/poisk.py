@@ -4,7 +4,7 @@ from zakupki.zakupkiapi.util import _checkDirectory_if_not_create, _contain_purc
 from .util import *
 
 
-def search_save(s, p_limit=PAGES_LIMIT, query=QUERY):
+def search_save(s, query, p_limit):
     """
     Using webcrapping asks search engine to find query through pages_limit pages, and saves search pages
     :param p_limit: number of pages to save
@@ -17,7 +17,7 @@ def search_save(s, p_limit=PAGES_LIMIT, query=QUERY):
         print('Loading page #%d' % (page))
         _checkDirectory_if_not_create(path)
         filepath = path + FILENAME
-        data = load_search_page(page, s, query)
+        data = load_search_page(p=page, s=s, q=query)
         if _contain_purchase_data(data):
             with open(filepath % page, 'w', encoding="UTF-8") as output_file:
                 print('Saving page #%d' % page)
@@ -27,7 +27,7 @@ def search_save(s, p_limit=PAGES_LIMIT, query=QUERY):
             break
 
 
-def parse_save_search_entries(session, query=QUERY):
+def parse_save_search_entries(session, query):
     """
     Parse all over search entries and then dump them
     :param query: agency name
@@ -45,11 +45,11 @@ def parse_save_search_entries(session, query=QUERY):
             page += 1
         else:
             break
-    dump_JSON_data(purchase_list, q=query)
+    dump_JSON_data(data=purchase_list, q=query)
     return purchase_list
 
 
-def create_save_lots(query=QUERY):
+def create_save_lots(query):
     """
 
     :param query:
@@ -63,5 +63,5 @@ def create_save_lots(query=QUERY):
             for item in d:
                 item["p_id"] = p['purchase_id']
             lots.extend(d)
-    dump_JSON_data(lots, filename=LOTS_DB_NAME, q=query)
+    dump_JSON_data(data=lots, filename=LOTS_DB_NAME, q=query)
     return lots
