@@ -1,6 +1,7 @@
 import json
 import os
 import re
+from string import punctuation
 
 import requests
 from bs4 import BeautifulSoup
@@ -123,8 +124,13 @@ def clear_text(content):
 
 
 def clear_price(content):
+    """
+    Removes words from price cell and kopeiki as well
+    :param content:
+    :return:
+    """
     numbers = re.findall('\d+', content)
-    return "".join(numbers)
+    return "".join(numbers[:-1])
 
 
 def get_id_from_url(content):
@@ -204,9 +210,36 @@ def parse_lots(p_id, session):
     lots_num = 0
     lots = []
     for row in trs:
-        cells = [clear_text(el.text) for el in row.find_all(['td', 'th']) if el.text]
+        cells = [el for el in row.find_all(['td', 'th']) if el.text]
         if len(cells) == LEN_LOT_LIST:
+            tmp = clear_text(cells[1].find('a', {'class': "dLink epz_aware"}).text)
             lots_num += 1
-            lot = {"name": cells[1], "category": cells[5], "price": clear_price(cells[3])}
+            lot = {"name": tmp,
+                   "category": clear_text(cells[5].text),
+                   "price": clear_price(clear_text(cells[3].text))}
             lots.append(lot)
     return {"lots": lots, 'lots_num': lots_num}
+
+
+def preprocess(q, lst):
+    if lst is None:
+        lst = load_JSON_data(q)
+    # lowers all
+    text_lower = [text.lower() for text in lst]
+    # delete punctuation
+    text_letters = [''.join(c for c in s if c not in punctuation) for s in text_lower]
+    return text_letters
+
+
+def preprocess_eng(q=QUERY, lst=None):
+    text_letters = preprocess(q, lst)
+    # delete all besides letters
+    text_final = [re.sub(r'[^A-Za-z]+', ' ', x) for x in text_letters]
+    return text_final
+
+
+def preprocess_rus(q=QUERY, lst=None):
+    text_letters = preprocess(q, lst)
+    # delete all besides letters
+    text_final = [re.sub(r'[^А-Яа-я]+', ' ', x) for x in text_letters]
+    return text_final
