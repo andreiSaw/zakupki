@@ -16,7 +16,7 @@ _STOPLISTNAME = "stopwords.json"
 _DATA_FOLDER = "./../data/%s/"
 _PURCHACE_INFO = "http://zakupki.gov.ru/223/purchase/public/purchase/info/%s.html?regNumber=%s"
 _TAB = "common-info"
-_DB_NAME = "test.json"
+_DB_NAME = "db.json"
 LEN_LOT_LIST = 6
 LOTS_DB_NAME = "lots.json"
 
@@ -72,6 +72,16 @@ def dump_JSON_data(data, q, filename=_DB_NAME):
         json.dump(data, f)
 
 
+def check_website_up():
+    p_id = "31807061497"
+    page = load_page(get_purchase_tab(p_id), session=_get_session())
+    soup = BeautifulSoup(page, features="lxml")
+    infopage = soup.find('div', {'class': "contentTabBoxBlock"})
+    if infopage is None:
+        return False
+    return True
+
+
 def _contain_purchase_data(text):
     htmlsoup = BeautifulSoup(text, features="lxml")
     purchase_list = htmlsoup.find('div', {'class': "registerBox registerBoxBank margBtm20"})
@@ -86,6 +96,7 @@ def load_search_page(q, p, s):
     :param q: query
     :return: text
     """
+    # TODO check what happens if site is down
     url = 'http://zakupki.gov.ru/epz/order/quicksearch/search_eis.html?searchString=%s&pageNumber=%d&sortDirection=false&recordsPerPage=_10&showLotsInfoHidden=false&fz223=on&pc=on&currencyId=-1&regionDeleted=false&sortBy=UPDATE_DATE' % (
         q, p)
     return load_page(url, s)
@@ -166,24 +177,27 @@ def _parse_search_page(filepath, session):
             'purchase_link': p_link,
             'purchase_id': p_id
         }
-        ppp = parse_purchase_page(p_id, session)
+        ppp = load_parse_purchase_page(p_id, session)
         temp_item.update(ppp)
         results.append(temp_item)
         print("Parsed %s page" % p_id)
     return results
 
 
-def parse_purchase_page(p_id, session):
+def load_parse_purchase_page(p_id, session):
     """
     Walk through purchase page and take first 3 divs then asks to get lots
-    :param p_link: puchase link
+    :param p_id: puchase id
     :param session:
     :return: dict element represents purchase
     """
     p_link = get_purchase_tab(p_id)
     page = load_page(p_link, session)
     soup = BeautifulSoup(page, features="lxml")
-    divs = soup.find('div', {'class': "contentTabBoxBlock"}).find_all('div', {'class': "noticeTabBoxWrapper"})
+    infopage = soup.find('div', {'class': "contentTabBoxBlock"})
+    if infopage is None:
+        raise Exception("Site is down")
+    divs = infopage.find_all('div', {'class': "noticeTabBoxWrapper"})
     element = {}
     i = 0
     for div in divs:
@@ -209,9 +223,11 @@ def parse_lots(p_id, session):
     p_link = get_purchase_tab(p_id, tab="lot-list")
     page = load_page(p_link, session)
     soup = BeautifulSoup(page, features="lxml")
-    trs = soup.find('table', {'id': 'lot'}).find('tbody').find_all('tr')
-    lots_num = 0
-    lots = []
+    lotable = soup.find('table', {'id': 'lot'})
+    if lotable is None:
+        raise Exception("Site is down")
+    trs = lotable.find('tbody').find_all('tr')
+    lots_num, lots = 0, []
     for row in trs:
         cells = [el for el in row.find_all(['td', 'th']) if el.text]
         if len(cells) == LEN_LOT_LIST:
@@ -237,7 +253,3 @@ def preprocess(q, flag, data=None):
     elif flag == "RU":
         text_final = [re.sub(r'[^А-Яа-я]+', ' ', x) for x in text_letters]
     return text_final
-
-
-def get_default_db_path(q):
-    return get_search_folder_path(q=q) + _DB_NAME
