@@ -16,3 +16,8 @@ def test_preprocess_eng():
     res = preprocess(data=test_str, q="df", flag="EN")
     ans = ["to others today libra and your communication will prove to be quite valuable you"]
     assert res == ans
+
+
+def test_isauto():
+    assert isauto({"category": "29.10.2"})
+    assert not isauto({"category": "Бензин"})

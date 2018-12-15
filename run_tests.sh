@@ -1,2 +1,2 @@
 cd tests
-pytest
+pytest -s -v
