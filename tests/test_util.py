@@ -1,4 +1,4 @@
-from zakupki.zakupkiapi.util import *
+from zakupkiClient import *
 
 
 # import pytest

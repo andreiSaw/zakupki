@@ -3,9 +3,10 @@ import shutil
 
 import pytest
 
-from zakupki.zakupkiapi.util import get_filename, load_JSON_data, dump_JSON_data, get_query_dir, _read_file
-
+from zakupkiClient import *
 # TODO teardown_module fixture resource_setup
+from zakupkiClient.util import _read_file
+
 AG_NAME = "Privet"
 
 

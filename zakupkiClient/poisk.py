@@ -1,7 +1,7 @@
 import os.path
 
-from zakupki.zakupkiapi.util import _checkDirectory_if_not_create, _contain_purchase_data, _parse_search_page
-from .util import *
+from zakupkiClient import *
+from zakupkiClient.util import _checkDirectory_if_not_create, _contain_purchase_data, _parse_search_page
 
 
 def search_save(s, query, p_limit):

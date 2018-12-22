@@ -3,10 +3,7 @@ import shutil
 
 import pytest
 
-from zakupki.zakupkiapi import search_save
-from zakupki.zakupkiapi.poisk import parse_save_search_entries, load_JSON_data, create_save_lots
-from zakupki.zakupkiapi.util import get_session, get_search_folder_path, get_query_dir, load_parse_purchase_page, \
-    dump_JSON_data
+from zakupkiClient import *
 
 AG_NAME = "высшая+школа+экономики"
 
