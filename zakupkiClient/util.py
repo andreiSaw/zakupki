@@ -21,7 +21,7 @@ LEN_LOT_LIST = 6
 LOTS_DB_NAME = "lots.json"
 
 
-def _get_session(headers=_HEADERS):
+def get_session(headers=_HEADERS):
     """
     establishing session
     :param headers:
@@ -74,7 +74,7 @@ def dump_JSON_data(data, q, filename=_DB_NAME):
 
 def check_website_up():
     p_id = "31807061497"
-    page = load_page(get_purchase_tab(p_id), session=_get_session())
+    page = load_page(get_purchase_tab(p_id), session=get_session())
     soup = BeautifulSoup(page, features="lxml")
     infopage = soup.find('div', {'class': "contentTabBoxBlock"})
     if infopage is None:

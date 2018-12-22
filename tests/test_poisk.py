@@ -5,13 +5,13 @@ import pytest
 
 from zakupki.zakupkiapi import search_save
 from zakupki.zakupkiapi.poisk import parse_save_search_entries, load_JSON_data, create_save_lots
-from zakupki.zakupkiapi.util import _get_session, get_search_folder_path, get_query_dir, load_parse_purchase_page, \
+from zakupki.zakupkiapi.util import get_session, get_search_folder_path, get_query_dir, load_parse_purchase_page, \
     dump_JSON_data
 
 AG_NAME = "высшая+школа+экономики"
 
 
-@pytest.fixture(scope="module", params=[(AG_NAME, _get_session())])
+@pytest.fixture(scope="module", params=[(AG_NAME, get_session())])
 def resource_setup(request):
     return request.param
 
@@ -22,7 +22,7 @@ def teardown_module(module):
 
 
 class TestPoisk(object):
-    def test_search_save_parse_save(self, resource_setup):
+    def test_search_save(self, resource_setup):
         (ag_name, ses) = resource_setup
         search_save(p_limit=1, query=ag_name, s=ses)
         path = get_search_folder_path(q=ag_name)
