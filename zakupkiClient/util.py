@@ -13,7 +13,7 @@ _HEADERS = {
 _SEARCH_FOLDER = "search/"
 FILENAME = "page_%s.html"
 _STOPLISTNAME = "stopwords.json"
-_DATA_FOLDER = "./../data/%s/"
+_DATA_FOLDER = "./data/%s/"
 _PURCHACE_INFO = "http://zakupki.gov.ru/223/purchase/public/purchase/info/%s.html?regNumber=%s"
 _TAB = "common-info"
 _DB_NAME = "db.json"
@@ -38,7 +38,7 @@ def _read_file(filepath):
     return text
 
 
-def _checkDirectory_if_not_create(directory):
+def checkDirectory_if_not_create(directory):
     if not os.path.exists(directory):
         os.makedirs(directory)
 
@@ -66,7 +66,7 @@ def load_JSON_data(q, filename=_DB_NAME):
 
 
 def dump_JSON_data(data, q, filename=_DB_NAME):
-    _checkDirectory_if_not_create(get_query_dir(q))
+    checkDirectory_if_not_create(get_query_dir(q))
     filepath = get_filename(q=q, filename=filename)
     with open(filepath, "w", encoding="UTF-8") as f:
         json.dump(data, f)
@@ -82,7 +82,7 @@ def check_website_up():
     return True
 
 
-def _contain_purchase_data(text):
+def contain_purchase_data(text):
     htmlsoup = BeautifulSoup(text, features="lxml")
     purchase_list = htmlsoup.find('div', {'class': "registerBox registerBoxBank margBtm20"})
     return purchase_list is not None
@@ -155,7 +155,7 @@ def clear_purchace_row(content, element):
     element[re.sub(' +', ' ', content[0])] = re.sub(' +', ' ', content[1])
 
 
-def _parse_search_page(filepath, session):
+def parse_search_page(filepath, session):
     """
     Parsing one single page to retrieve all data (purchase url, id, etc.)
     :param filepath:  saved page path
