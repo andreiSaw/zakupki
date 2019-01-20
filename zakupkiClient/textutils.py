@@ -27,7 +27,7 @@ def get_id_from_url(content):
 
 def preprocess(stub, flag, data=None):
     if data is None:
-        data = load_JSON_data(stub=stub, filename=stub.get_purchase_db_name())
+        data = load_JSON_data(stub=stub, filename=stub.get_purchase_db_name)
     # lowers all
     text_lower = [text.lower() for text in data]
     # delete punctuation

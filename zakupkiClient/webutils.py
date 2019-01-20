@@ -5,7 +5,7 @@ from .util import *
 
 
 def check_website_up(stub):
-    p_id = "31807061497"
+    p_id = stub.get_p_id_test()
     url = stub.get_purchase_tab(p_id=p_id)
     print("loading  " + url)
     page = load_page(stub=stub, p_link=url)
@@ -38,7 +38,7 @@ def parse_search_page(stub, filepath):
     """
     Parsing one single page to retrieve all data (purchase url, id, etc.)
     :param filepath:  saved page path
-    :param session:
+    :param stub:
     :return: results[] represents all search entries from that page
     """
     results = []
@@ -56,18 +56,23 @@ def parse_search_page(stub, filepath):
             'purchase_link': p_link,
             'purchase_id': p_id
         }
-        ppp = load_parse_purchase_page(stub=stub, p_id=p_id)
+        if stub.get_numFz() == "44":
+            ppp = load_parse_purchase_44_page(stub=stub, p_id=p_id)
+        elif stub.get_numFz() == "223":
+            ppp = load_parse_purchase_223_page(stub=stub, p_id=p_id)
+        else:
+            raise Exception("not available parser")
         temp_item.update(ppp)
         results.append(temp_item)
         print("Parsed %s page" % p_id)
     return results
 
 
-def load_parse_purchase_page(stub, p_id):
+def load_parse_purchase_223_page(stub, p_id):
     """
-    Walk through purchase page and take first 3 divs then asks to get lots
+    Walk through purchase page and take first 2 divs then asks to get lots
     :param p_id: puchase id
-    :param session:
+    :param stub:
     :return: dict element represents purchase
     """
     p_link = stub.get_purchase_tab(p_id=p_id)
@@ -85,18 +90,19 @@ def load_parse_purchase_page(stub, p_id):
             row = [clear_text(el.text) for el in tr.find_all(['td', 'th']) if el.text]
             if len(row) > 1:
                 clear_purchace_row(row, element)
-        i += 1
-        if i > 2:
+        if i > 1:
+            # parse two first blocks
             break
+        i += 1
     element.update(parse_lots(stub=stub, p_id=p_id))
     return element
 
 
 def parse_lots(stub, p_id):
     """
-    Walk through purchase page and parse lots tab
+    Walk through purchase page and parse lots tab, get only that have category sequence in OKPD2 classifcation
     :param p_id: purchase id
-    :param session:
+    :param stub:
     :return: dict {lots[],lots_num}
     """
     p_link = stub.get_purchase_tab(p_id=p_id, tab="lot-list")
@@ -113,7 +119,7 @@ def parse_lots(stub, p_id):
             tmp = clear_text(cells[1].find('a', {'class': "dLink epz_aware"}).text)
             lots_num += 1
             lot = {"name": tmp,
-                   "category": clear_text(cells[5].text),
+                   "category": clear_text(cells[4].text),
                    "price": clear_price(clear_text(cells[3].text))}
             lots.append(lot)
     return {"lots": lots, 'lots_num': lots_num}
@@ -147,5 +153,7 @@ def parse_protocols(stub, p_id):
     tds = [clear_text(td.text) for td in tds]
     if "Заявок нет" in tds:
         return "NA"
+    if not trs[k + 1].find("td").find("table"):
+        return "TBD"
     trs2 = trs[k + 1].find("td").find("table").find_all("tr")
     return clear_text(trs2[1].text)

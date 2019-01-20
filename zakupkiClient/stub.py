@@ -9,13 +9,15 @@ _SEARCH_FOLDER = "search/"
 _FILENAME = "page_%s.html"
 _DATA_FOLDER = "./data/%s/"
 _PURCHASE_INFO = {"223": "http://zakupki.gov.ru/%s/purchase/public/purchase/info/%s.html?regNumber=%s",
-                  "44": "http://zakupki.gov.ru/epz/order/notice/ea44/view/%s.html?regNumber=%s"}
+                  "44": "http://zakupki.gov.ru/epz/order/notice/ea%s/view/%s.html?regNumber=%s"}
 # _STOPLISTNAME = "stopwords.json"
 _TAB = "common-info"
 _LEN_LOT_LIST = 6
 _LOTS_DB_NAME = "lots.json"
 _PROTOCOL_PLUG_LINK = "http://zakupki.gov.ru%s"
-_SEARCH_PAGE_URL = "http://zakupki.gov.ru/epz/order/quicksearch/search_eis.html?searchString=%s&pageNumber=%d&sortDirection=false&recordsPerPage=_10&showLotsInfoHidden=false&fz%s=on&pc=on&currencyId=-1&regionDeleted=false&sortBy=UPDATE_DATE"
+_SEARCH_PAGE_URL = \
+    "http://zakupki.gov.ru/epz/order/quicksearch/search_eis.html?searchString=%s&pageNumber=%d&sortDirection=false&recordsPerPage=_10&showLotsInfoHidden=false&fz%s=on&pc=on&currencyId=-1&regionDeleted=false&sortBy=UPDATE_DATE"
+_P_ID_TEST = {"223": "31807061497", "44": "0158300003218000137"}
 
 
 class Stub:
@@ -38,6 +40,7 @@ class Stub:
         self.__lots_db_name = lots_db_name
         self.__protocol_plug_link = protocol_plug_link
         self.__search_page_url = search_page_url
+        self.__p_id_test = _P_ID_TEST[numFz]
 
         self.__establish_session()
 
@@ -93,7 +96,6 @@ class Stub:
         """
         gets file from "data/query/filename"
         :param filename:
-        :param q:
         :return:
         """
         return self.get_query_dir() + filename
@@ -106,3 +108,6 @@ class Stub:
 
     def get_search_page_url(self, page_num):
         return self.__search_page_url % (self.get_query(), page_num, self.get_numFz())
+
+    def get_p_id_test(self):
+        return self.__p_id_test
