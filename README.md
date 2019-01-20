@@ -10,5 +10,5 @@ Testing
 ```
 OR
 ```shell
-cd tests/ && pytest test_poisk.py
+cd tests/ && pytest -s -v test_poisk.py
 ```
