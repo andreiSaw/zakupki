@@ -25,8 +25,8 @@ def test_preprocess_eng(resource_setup):
     ans = ["to others today libra and your communication will prove to be quite valuable you"]
     assert res == ans
 
-
-def test_iscategory(resource_setup):
-    stub = resource_setup
-    assert iscategory({"category": "auto"}, stub.get_target())
-    assert not iscategory({"category": "29.10.2"}, stub.get_target())
+#
+# def test_iscategory(resource_setup):
+#     stub = resource_setup
+#     assert iscategory({"category": "auto"}, stub.get_target)
+#     assert not iscategory({"category": "29.10.2"}, stub.get_target)

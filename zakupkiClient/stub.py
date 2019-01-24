@@ -1,13 +1,13 @@
 import requests
 
 _HEADERS = {
-    'Referer': 'http://www.kinopoisk.ru',
-    'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.9; rv:45.0) Gecko/20100101 Firefox/45.0'
+    'Referer': 'https://www.google.com/',
+    'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 5_1 like Mac OS X) AppleWebKit/534.46 (KHTML, like Gecko) Version/5.1 Mobile/9B179 Safari/7534.48.3'
 }
 _PURCHASE_DB_NAME = "db.json"
 _SEARCH_FOLDER = "search/"
 _FILENAME = "page_%s.html"
-_DATA_FOLDER = "./data/%s/"
+_DATA_FOLDER = "data/%s/"
 _PURCHASE_INFO = {"223": "http://zakupki.gov.ru/%s/purchase/public/purchase/info/%s.html?regNumber=%s",
                   "44": "http://zakupki.gov.ru/epz/order/notice/ea%s/view/%s.html?regNumber=%s"}
 # _STOPLISTNAME = "stopwords.json"
@@ -16,7 +16,7 @@ _LEN_LOT_LIST = 6
 _LOTS_DB_NAME = "lots.json"
 _PROTOCOL_PLUG_LINK = "http://zakupki.gov.ru%s"
 _SEARCH_PAGE_URL = \
-    "http://zakupki.gov.ru/epz/order/quicksearch/search_eis.html?searchString=%s&pageNumber=%d&sortDirection=false&recordsPerPage=_10&showLotsInfoHidden=false&fz%s=on&pc=on&currencyId=-1&regionDeleted=false&sortBy=UPDATE_DATE"
+    "http://zakupki.gov.ru/epz/order/quicksearch/search.html?searchString=%s&morphology=on&pageNumber=%d&sortDirection=false&recordsPerPage=_10&showLotsInfoHidden=false&fz%s=on&pc=on&currencyId=-1&regionDeleted=false&sortBy=UPDATE_DATE"
 _P_ID_TEST = {"223": "31807061497", "44": "0158300003218000137"}
 
 
@@ -83,6 +83,9 @@ class Stub:
     def __establish_session(self):
         self.__s = requests.Session()
         self.__s.headers.update(self.__headers)
+        # proxies = {'http': '127.0.0.1:7070','https': '127.0.0.1:7070', }
+        # Create the session and set the proxies.
+        # self.__s.proxies = proxies
 
     def get_query_dir(self):
         """

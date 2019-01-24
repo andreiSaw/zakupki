@@ -1,3 +1,5 @@
+import logging
+
 from bs4 import BeautifulSoup
 
 from .textutils import *
@@ -7,7 +9,7 @@ from .util import *
 def check_website_up(stub):
     p_id = stub.get_p_id_test()
     url = stub.get_purchase_tab(p_id=p_id)
-    print("loading  " + url)
+    logging.info("loading  " + url)
     page = load_page(stub=stub, p_link=url)
     soup = BeautifulSoup(page, features="lxml")
     infopage = soup.find('div', {'class': "contentTabBoxBlock"})
@@ -56,12 +58,7 @@ def parse_search_page(stub, filepath):
             'purchase_link': p_link,
             'purchase_id': p_id
         }
-        if stub.get_numFz() == "44":
-            ppp = load_parse_purchase_44_page(stub=stub, p_id=p_id)
-        elif stub.get_numFz() == "223":
-            ppp = load_parse_purchase_223_page(stub=stub, p_id=p_id)
-        else:
-            raise Exception("not available parser")
+        ppp = load_parse_purchase_223_page(stub=stub, p_id=p_id)
         temp_item.update(ppp)
         results.append(temp_item)
         print("Parsed %s page" % p_id)
@@ -126,22 +123,23 @@ def parse_lots(stub, p_id):
 
 
 def parse_protocols(stub, p_id):
-    print("Gathering #%s lot\' data" % p_id)
+    logging.info("Gathering #%s lot\' data" % p_id)
     page = load_page(stub=stub, p_link=stub.get_purchase_tab(p_id=p_id, tab="protocols"))
     soup = BeautifulSoup(page, features="lxml")
     toolTipMenuDiv = soup.find("div", {"class": "toolTipMenu"})
+    if not toolTipMenuDiv:
+        return "NA"
     command = toolTipMenuDiv.find("li").get('onclick')
     link = command[command.find("\'") + 1:]
     link = link[:link.find("\'")]
     fulllink = stub.get_protocol_plug_link() % link
-    print("Loading %s" % fulllink)
+    logging.info("Loading %s" % fulllink)
     page = load_page(stub=stub, p_link=fulllink)
     soup = BeautifulSoup(page, features="lxml")
     tabs1 = soup.find("div", {"id": "tabs-1"})
     trs = tabs1.find_all("tr")
     grades = {}
-    i = 0
-    k = -1
+    i, k = 0, -1
     for tr in trs:
         td_text = [td.text.strip() for td in tr.find_all("td")]
         grades[i] = td_text
@@ -157,3 +155,93 @@ def parse_protocols(stub, p_id):
         return "TBD"
     trs2 = trs[k + 1].find("td").find("table").find_all("tr")
     return clear_text(trs2[1].text)
+
+
+def parse_search_page_xml(stub, filepath):
+    """
+        Parsing one single page to retrieve all data (purchase url, id, etc.)
+        :param filepath:  saved page path
+        :param stub:
+        :return: results[] represents all search entries from that page
+        """
+    results = []
+    text = read_file(filepath)
+
+    soup = BeautifulSoup(text, features="lxml")
+    purchase_list = soup.find('div', {'class': 'parametrs margBtm10'})
+    items = purchase_list.find_all('div', {'class': ['registerBox registerBoxBank margBtm20']})
+    for item in items:
+        p_link = item.find('td', {'class': 'descriptTenderTd'}).find('a').get('href')
+        p_id = get_id_from_url(p_link)
+
+        # TODO parse purchase online
+        temp_item = {
+            'purchase_link': p_link,
+            'purchase_id': p_id
+        }
+        ppp = load_parse_purchase_223_page_xml(stub=stub, p_id=p_id)
+        temp_item.update(ppp)
+        results.append(temp_item)
+        logging.info("Parsed %s page" % p_id)
+    return results
+
+
+def load_parse_purchase_223_page_xml(stub, p_id):
+    logging.info("Gathering #%s lot\' data" % p_id)
+    p_link = stub.get_purchase_tab(p_id=p_id, tab="protocols")
+    page = load_page(stub=stub, p_link=p_link)
+    soup = BeautifulSoup(page, features="lxml")
+    toolTipMenuDiv = soup.find("div", {"class": "toolTipMenu"})
+    if not toolTipMenuDiv:
+        return "NA"
+    command = toolTipMenuDiv.find("li").get('onclick')
+    link = command[command.find("\'") + 1:]
+    link = link[:link.find("\'")]
+    fulllink = stub.get_protocol_plug_link() % link
+    logging.info("Loading %s" % fulllink)
+
+    page = load_page(stub=stub, p_link=fulllink)
+    soup = BeautifulSoup(page, features="lxml")
+    xml_data = soup.find("div", {"id": "tabs-2"}).text
+    if not xml_data:
+        return "NA"
+
+    soup = BeautifulSoup(xml_data, "xml")
+
+    customer_attrs = {}
+    customer = soup.find('ns2:customer')
+    customer_tags = ['fullName', 'inn']
+    for tag in customer_tags:
+        customer_attrs[tag] = '{}'.format(customer.find(tag).text)
+
+    lots = []
+    lot_tags = ['subject', 'initialSum']
+    supplier_tags = ["name", "inn"]
+
+    lotApplicationsList = soup.find('ns2:lotApplicationsList')
+    applicationsList = lotApplicationsList.findAll('ns2:protocolLotApplications')
+    for app in applicationsList:
+        lot_xml = app.find("ns2:lot")
+        l_attrs = {}
+        if not lot_xml:
+            customer_attrs["lots"] = "NA"
+            customer_attrs["lots_num"] = 0
+            return customer_attrs
+        for tag in lot_tags:
+            l_attrs[tag] = lot_xml.find("ns2:" + tag).text
+        for a in app.findAll("ns2:application"):
+            winnerIndication = a.find("ns2:winnerIndication")
+            if not winnerIndication:
+                continue
+            if winnerIndication.text == "F":
+                supplier_attrs = {}
+                supplier = a.find("ns2:supplierInfo")
+                for tag in supplier_tags:
+                    supplier_attrs[tag] = supplier.find(tag).text
+                price = a.find("ns2:price").text
+                l_attrs['price'] = price
+                l_attrs['supplier'] = supplier_attrs
+        lots.append(l_attrs)
+    customer_attrs['lots'] = lots
+    customer_attrs['lots_num'] = len(lots)
+    return customer_attrs
