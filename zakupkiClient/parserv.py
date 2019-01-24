@@ -1,9 +1,12 @@
-from .parserinterface import ParserInterface
-from .util import _dump_JSON_data, _checkDirectory_if_not_create
-from .webutils import *
 import logging
+import os
 
-class Parser223(ParserInterface):
+from zakupkiClient.parserinterface import ParserInterface
+from zakupkiClient.util import _checkDirectory_if_not_create, saving, load_JSON_data
+from zakupkiClient.webutils import parse_search_page_xml, load_search_page, contain_purchase_data
+
+
+class ParserV(ParserInterface):
     def __init__(self, stub):
         self.__stub = stub
 
@@ -31,7 +34,7 @@ class Parser223(ParserInterface):
         while page <= p_limit:
             filename = filepath % page
             if os.path.isfile(filename):
-                res = parse_search_page(stub=self.get_stub(), filepath=filename)
+                res = parse_search_page_xml(stub=self.get_stub(), filepath=filename)
                 purchase_list.extend(res)
                 page += 1
             else:
@@ -47,18 +50,12 @@ class Parser223(ParserInterface):
             if p['lots_num'] > 0:
                 lotslist = p['lots']
                 for item in lotslist:
-                    # if iscategory(item, self.get_stub().get_target()):
                     item["p_id"] = p['purchase_id']
-                    item["buyer"] = p['Наименование организации']
-                    item["type"] = p["Способ размещения закупки"]
+                    item["fullName"] = p['fullName']
+                    item["inn"] = p["inn"]
                     # TODO: add clear text to name
                     lots.append(item)
         saving(data=lots, filename=self.get_stub().get_lots_db_name(), stub=self.get_stub())
-
-    def get_vendors_save_lots(self, lots):
-        for item in lots:
-            item["supplier"] = parse_protocols(stub=self.get_stub(), p_id=item["p_id"])
-            _dump_JSON_data(stub=self.get_stub(), data=lots, filename=self.get_stub().get_lots_db_name())
 
     def get_stub(self):
         return self.__stub
