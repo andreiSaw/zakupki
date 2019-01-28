@@ -130,9 +130,14 @@ def parse_xml_supplier(soup):
     supplier1 = {"name": "", "inn": ""}
     supplier = soup.find("ns2:supplierInfo")
     for tag in supplier1.keys():
-        supplier1[tag] = supplier.find(tag).text
-    price = soup.find("ns2:price").text
-    supplier1['price'] = price
+        xml_s=supplier.find(tag)
+        if xml_s:
+            supplier1[tag] = xml_s.text
+    price = soup.find("ns2:price")
+    if price:
+        supplier1['price'] = price.text
+    else:
+        supplier1['price'] = None
     return supplier1
 
 
