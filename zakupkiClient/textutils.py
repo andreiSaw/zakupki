@@ -18,7 +18,7 @@ def clear_price(content):
     return "".join(numbers[:-1])
 
 def clear_text(content):
-    tmp = content.replace("\n", "").replace("\t", "").replace("\r", "")
+    tmp = content.replace("\n", "").replace("\t", "").replace("\r", "").replace(u'\xa0', u' ')
     tmp = re.sub(' +', ' ', tmp).lstrip().rstrip()
     return tmp
 

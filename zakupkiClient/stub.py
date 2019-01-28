@@ -16,15 +16,16 @@ _LEN_LOT_LIST = 6
 _LOTS_DB_NAME = "lots.json"
 _PROTOCOL_PLUG_LINK = "http://zakupki.gov.ru%s"
 _SEARCH_PAGE_URL = \
-    "http://zakupki.gov.ru/epz/order/quicksearch/search.html?searchString=%s&morphology=on&pageNumber=%d&sortDirection=false&recordsPerPage=_10&showLotsInfoHidden=false&fz%s=on&pc=on&currencyId=-1&regionDeleted=false&sortBy=UPDATE_DATE"
+    "http://zakupki.gov.ru/epz/order/quicksearch/search.html?searchString=%s&%s&pageNumber=%d&sortDirection=false&recordsPerPage=_10&showLotsInfoHidden=false&fz%s=on&pc=on&currencyId=-1&regionDeleted=false&sortBy=UPDATE_DATE"
 _P_ID_TEST = {"223": "31807061497", "44": "0158300003218000137"}
+_MORFOLOGY = "morphology=on"
 
 
 class Stub:
     def __init__(self, query, numFz, target, headers=_HEADERS, purchase_db_name=_PURCHASE_DB_NAME,
                  search_folder_name=_SEARCH_FOLDER, page_filename=_FILENAME, data_folder_name=_DATA_FOLDER,
                  default_tab=_TAB, len_lot_list=_LEN_LOT_LIST, lots_db_name=_LOTS_DB_NAME,
-                 protocol_plug_link=_PROTOCOL_PLUG_LINK, search_page_url=_SEARCH_PAGE_URL):
+                 protocol_plug_link=_PROTOCOL_PLUG_LINK, search_page_url=_SEARCH_PAGE_URL, morfology=False):
         self.__numFz = numFz
         self.__query = query
         self.__target = target
@@ -41,6 +42,11 @@ class Stub:
         self.__protocol_plug_link = protocol_plug_link
         self.__search_page_url = search_page_url
         self.__p_id_test = _P_ID_TEST[numFz]
+
+        if morfology:
+            self.__morfology = _MORFOLOGY
+        else:
+            self.__morfology = ""
 
         self.__establish_session()
 
@@ -83,9 +89,9 @@ class Stub:
     def __establish_session(self):
         self.__s = requests.Session()
         self.__s.headers.update(self.__headers)
-        proxies = {'http': '127.0.0.1:7070','https': '127.0.0.1:7070', }
+        # proxies = {'http': '127.0.0.1:7070','https': '127.0.0.1:7070', }
         # Create the session and set the proxies.
-        self.__s.proxies = proxies
+        # self.__s.proxies = proxies
 
     def get_query_dir(self):
         """
@@ -110,7 +116,7 @@ class Stub:
         return self.get_purchase_link() % (self.get_numFz(), tab, p_id)
 
     def get_search_page_url(self, page_num):
-        return self.__search_page_url % (self.get_query(), page_num, self.get_numFz())
+        return self.__search_page_url % (self.get_query(), self.__morfology, page_num, self.get_numFz())
 
     def get_p_id_test(self):
         return self.__p_id_test

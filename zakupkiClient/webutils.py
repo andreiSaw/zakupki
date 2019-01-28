@@ -65,6 +65,34 @@ def parse_search_page(stub, filepath):
     return results
 
 
+def parse_lots(stub, p_id):
+    """
+    Walk through purchase page and parse lots tab, get only that have category sequence in OKPD2 classifcation
+    :param p_id: purchase id
+    :param stub:
+    :return: dict {lots[],lots_num}
+    """
+    p_link = stub.get_purchase_tab(p_id=p_id, tab="lot-list")
+    page = load_page(stub=stub, p_link=p_link)
+    soup = BeautifulSoup(page, features="lxml")
+    lotable = soup.find('table', {'id': 'lot'})
+    if lotable is None:
+        raise Exception("Site is down")
+    trs = lotable.find('tbody').find_all('tr')
+    lots_num, lots = 0, []
+    for row in trs:
+        cells = [el for el in row.find_all(['td', 'th']) if el.text]
+        if len(cells) == stub.get_len_lot_list():
+            tmp = clear_text(cells[1].find('a', {'class': "dLink epz_aware"}).text)
+            lots_num += 1
+            t = clear_text(cells[4].text)
+
+            lot = {"name": tmp,
+                   "category": t[:t.find(" ")]}
+            lots.append(lot)
+    return lots, lots_num
+
+
 def detect_protocol(soup):
     toolTipMenuDiv = soup.find_all("div", {"class": "toolTipMenu"})
     if len(toolTipMenuDiv) < 1:
@@ -93,6 +121,8 @@ def parse_xml_customer(soup):
         if not cstag:
             return None
         customer[tag] = customer_xml.find(tag).text
+    date_xml = soup.find('ns2:createDateTime')
+    customer["date"] = date_xml.text
     return customer
 
 
@@ -147,8 +177,7 @@ def load_parse_purchase_page(stub, p_id):
 
     logging.info("Gathering #%s lot\' data" % p_id)
 
-
-
+    l2, l2_num = parse_lots(stub, p_id)
 
     p_link = stub.get_purchase_tab(p_id=p_id, tab="protocols")
     page = load_page(stub=stub, p_link=p_link)
@@ -178,7 +207,12 @@ def load_parse_purchase_page(stub, p_id):
     if not lots:
         lots = []
     else:
+        i = 0
         l1 = len(lots)
+        for t in lots:
+            t['category'] = l2[i]["category"]
+            i += 1
+
     plug['lots'] = lots
     plug['lots_num'] = l1
     return plug
