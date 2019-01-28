@@ -83,9 +83,9 @@ class Stub:
     def __establish_session(self):
         self.__s = requests.Session()
         self.__s.headers.update(self.__headers)
-        # proxies = {'http': '127.0.0.1:7070','https': '127.0.0.1:7070', }
+        proxies = {'http': '127.0.0.1:7070','https': '127.0.0.1:7070', }
         # Create the session and set the proxies.
-        # self.__s.proxies = proxies
+        self.__s.proxies = proxies
 
     def get_query_dir(self):
         """
