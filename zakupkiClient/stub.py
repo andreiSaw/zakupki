@@ -1,8 +1,8 @@
 import requests
 
 _HEADERS = {
-    'Referer': 'https://www.google.com/',
-    'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 5_1 like Mac OS X) AppleWebKit/534.46 (KHTML, like Gecko) Version/5.1 Mobile/9B179 Safari/7534.48.3'
+    'Referer': 'https://www.abc.com/',
+    'User-Agent': 'Mozilla/5.0'
 }
 _PURCHASE_DB_NAME = "db.json"
 _SEARCH_FOLDER = "search/"
@@ -25,7 +25,8 @@ class Stub:
     def __init__(self, query, numFz, target, headers=_HEADERS, purchase_db_name=_PURCHASE_DB_NAME,
                  search_folder_name=_SEARCH_FOLDER, page_filename=_FILENAME, data_folder_name=_DATA_FOLDER,
                  default_tab=_TAB, len_lot_list=_LEN_LOT_LIST, lots_db_name=_LOTS_DB_NAME,
-                 protocol_plug_link=_PROTOCOL_PLUG_LINK, search_page_url=_SEARCH_PAGE_URL, morfology=False):
+                 protocol_plug_link=_PROTOCOL_PLUG_LINK, search_page_url=_SEARCH_PAGE_URL, morfology=False,
+                 proxy=False):
         self.__numFz = numFz
         self.__query = query
         self.__target = target
@@ -48,7 +49,7 @@ class Stub:
         else:
             self.__morfology = ""
 
-        self.__establish_session()
+        self.__establish_session(proxy)
 
     def get_session(self):
         return self.__s
@@ -86,12 +87,13 @@ class Stub:
     def get_page_filename(self):
         return self.__page_filename
 
-    def __establish_session(self):
+    def __establish_session(self, proxy):
         self.__s = requests.Session()
         self.__s.headers.update(self.__headers)
-        # proxies = {'http': '127.0.0.1:7070','https': '127.0.0.1:7070', }
-        # Create the session and set the proxies.
-        # self.__s.proxies = proxies
+        if proxy:
+            proxies = {'http': '127.0.0.1:7070', 'https': '127.0.0.1:7070', }
+            # Create the session and set the proxies.
+            self.__s.proxies = proxies
 
     def get_query_dir(self):
         """

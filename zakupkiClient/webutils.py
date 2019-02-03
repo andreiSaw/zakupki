@@ -76,21 +76,26 @@ def parse_lots(stub, p_id):
     page = load_page(stub=stub, p_link=p_link)
     soup = BeautifulSoup(page, features="lxml")
     lotable = soup.find('table', {'id': 'lot'})
-    if lotable is None:
+    if not lotable:
         raise Exception("Site is down")
     trs = lotable.find('tbody').find_all('tr')
     lots_num, lots = 0, []
-    for row in trs:
-        cells = [el for el in row.find_all(['td', 'th']) if el.text]
-        if len(cells) == stub.get_len_lot_list():
-            tmp = clear_text(cells[1].find('a', {'class': "dLink epz_aware"}).text)
-            lots_num += 1
-            t = clear_text(cells[4].text)
+    while True:
+        for row in trs:
+            cells = [el for el in row.find_all(['td', 'th']) if el.text]
+            if len(cells) == stub.get_len_lot_list():
+                tmp = clear_text(cells[1].find('a', {'class': "dLink epz_aware"}).text)
+                lots_num += 1
+                t = clear_text(cells[4].text)
 
-            lot = {"name": tmp,
-                   "category": t[:t.find(" ")]}
-            lots.append(lot)
-    return lots, lots_num
+                lot = {"name": tmp,
+                       "category": t[:t.find(" ")]}
+                lots.append(lot)
+        rightArrow = soup.find('li', {'class': "rightArrow"})
+        if rightArrow:
+            soup = BeautifulSoup(load_page(stub, f"http://zakupki.gov.ru/{rightArrow.find('a').get('href')}"), features="lxml")
+        else:
+            return lots, lots_num
 
 
 def detect_protocol(soup):
@@ -130,7 +135,7 @@ def parse_xml_supplier(soup):
     supplier1 = {"name": "", "inn": ""}
     supplier = soup.find("ns2:supplierInfo")
     for tag in supplier1.keys():
-        xml_s=supplier.find(tag)
+        xml_s = supplier.find(tag)
         if xml_s:
             supplier1[tag] = xml_s.text
     price = soup.find("ns2:price")
