@@ -1,5 +1,7 @@
 import requests
 
+from zakupkiClient.textutils import create_query
+
 _HEADERS = {
     'Referer': 'https://www.abc.com/',
     'User-Agent': 'Mozilla/5.0'
@@ -28,7 +30,7 @@ class Stub:
                  protocol_plug_link=_PROTOCOL_PLUG_LINK, search_page_url=_SEARCH_PAGE_URL, morfology=False,
                  proxy=False):
         self.__numFz = numFz
-        self.__query = query
+        self.__query = create_query(query)
 
         self.__headers = headers
         self.__purchase_db_name = purchase_db_name

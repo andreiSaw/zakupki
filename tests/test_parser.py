@@ -6,7 +6,7 @@ import pytest
 
 from zakupkiClient import *
 
-AG_NAME = "высшая+школа+экономики"
+AG_NAME = "высшая школа экономики"
 
 
 @pytest.fixture(scope="module")
