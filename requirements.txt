@@ -1,8 +1,4 @@
 jupyter
-numpy
-scipy
-scikit-learn>=0.18
-matplotlib
 pandas
 html5lib
 beautifulsoup4
