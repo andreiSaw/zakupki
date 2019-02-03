@@ -5,20 +5,21 @@ import pytest
 
 from zakupkiClient import *
 # TODO teardown_module fixture resource_setup
-from zakupkiClient.util import read_file, _dump_JSON_data
+from zakupkiClient.util import _dump_JSON_data, _checkDirectory_if_not_create
 
 AG_NAME = "Privet"
 
+
 def teardown_module(module):
     print("\nmodule teardown")
-    stub=Stub(query=AG_NAME, numFz="223", target="auto")
+    stub = Stub(query=AG_NAME, numFz="223")
     shutil.rmtree(stub.get_query_dir())
     os.unlink("x.a")
 
 
 @pytest.fixture(scope="module")
 def resource_setup(request):
-    return Stub(query=AG_NAME, numFz="223", target="auto")
+    return Stub(query=AG_NAME, numFz="223")
 
 
 def test_io_json(resource_setup):
@@ -40,3 +41,23 @@ def test_read_file():
         output_file.write(res)
     ans = read_file("x.a")
     assert res == ans
+
+
+def test_saving(resource_setup):
+    d1 = [1, 3, 4]
+    d2 = [3, 4, 1]
+    stub = resource_setup
+    saving(stub=stub, data=d1, filename="test1.json")
+    saving(stub=stub, data=d2, filename="test1.json")
+    d = load_JSON_data(stub=stub, filename="test1.json")
+    assert d == d1 + d2
+
+
+def test_checkDirectory_if_not_create(resource_setup):
+    stub = resource_setup
+    directory = f'{stub.get_query_dir()}test'
+    assert not os.path.exists(directory)
+    _checkDirectory_if_not_create(directory)
+    assert os.path.exists(directory)
+    shutil.rmtree(directory)
+    assert not os.path.exists(directory)

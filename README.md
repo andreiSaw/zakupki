@@ -12,3 +12,5 @@ OR
 ```shell
 cd tests/ && pytest -s -v test_poisk.py
 ```
+
+# Version 1.0

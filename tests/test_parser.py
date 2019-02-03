@@ -1,22 +1,22 @@
+import json
 import os
 import shutil
 
 import pytest
 
 from zakupkiClient import *
-from zakupkiClient.util import _dump_JSON_data
 
 AG_NAME = "высшая+школа+экономики"
 
 
 @pytest.fixture(scope="module")
 def resource_setup(request):
-    return Parser223(Stub(query=AG_NAME, numFz="223", target="auto"))
+    return Parser(Stub(query=AG_NAME, numFz="223"))
 
 
 def teardown_module(module):
     print("\nmodule teardown")
-    stub = Stub(query=AG_NAME, numFz="223", target="auto")
+    stub = Stub(query=AG_NAME, numFz="223")
     shutil.rmtree(stub.get_query_dir())
 
 
@@ -36,8 +36,6 @@ class TestParser(object):
         parser = resource_setup
         stub = parser.get_stub()
         parser.parse_save_search_entries(p_limit=1)
-        if not os.path.exists(stub.get_query_dir()):
-            pytest.fail("no db created in dir")
         lst = load_JSON_data(stub=stub, filename=stub.get_purchase_db_name())
         if len(lst) < 1:
             pytest.fail("no entries parsed")
@@ -46,7 +44,7 @@ class TestParser(object):
     def test_load_parse_purchase_page(self, resource_setup):
         parser = resource_setup
         stub = parser.get_stub()
-        page = load_parse_purchase_223_page(p_id="31807061497", stub=stub)
+        page = load_parse_purchase_page(p_id="31807061497", stub=stub)
         if len(page) < 1:
             pytest.fail("no page parsed")
         pass
@@ -54,12 +52,10 @@ class TestParser(object):
     def test_create_save_lots(self, resource_setup):
         parser = resource_setup
         stub = parser.get_stub()
-        data = [{"lots_num": 2, "purchase_id": "0", "Наименование организации": "default",
-                 "lots": [{"p_id": "2", "name": "id=2", "category": "auto"},
-                          {"p_id": "4", "name": "id=4", "category": "auto"}]
-                 }]
-        _dump_JSON_data(data=data, stub=stub, filename=stub.get_purchase_db_name())
-        res = parser.create_save_lots()
-        ans = [{"p_id": "0", "name": "id=2", "category": "auto", "buyer": "default"},
-               {"p_id": "0", "name": "id=4", "category": "auto", "buyer": "default"}]
+        with open("data/dbtest.json", "r") as json_data:
+            data = json.load(json_data)
+        parser.create_save_lots(purchases=data)
+        res = load_JSON_data(stub=stub, filename=stub.get_lots_db_name())
+        with open("data/lottest.json", "r") as json_data:
+            ans = json.load(json_data)
         assert res == ans

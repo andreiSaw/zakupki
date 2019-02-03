@@ -10,4 +10,5 @@ def test_wordoc():
     for table in wordDoc.tables:
         for row in table.rows:
             for cell in row.cells:
-                print(cell.text)
+                pass
+                # print(cell.text)

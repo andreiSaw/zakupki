@@ -36,23 +36,3 @@ def saving(stub, data, filename):
         _dump_JSON_data(stub=stub, data=tmp + data, filename=filename)
     else:
         _dump_JSON_data(stub=stub, data=data, filename=filename)
-
-
-
-def iscategory(lot, category):
-    if category in lot['category']:
-        return True
-    return False
-
-# TODO: delete or make work
-# def get_stoplist_path(stub):
-#     return get_query_dir(stub) + _STOPLISTNAME
-# def getStopList():
-#     filepath = _STOPLISTNAME
-#     if not os.path.isfile(filepath):
-#         return []
-#     with open(filepath, "r") as json_data:
-#         data = json.load(json_data)
-#         if isinstance(data, list):
-#             return data
-#         return []

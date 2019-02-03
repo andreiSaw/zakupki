@@ -9,7 +9,7 @@ from zakupkiClient.util import _checkDirectory_if_not_create, saving, load_JSON_
 from zakupkiClient.webutils import parse_search_page, load_search_page, contain_purchase_data
 
 
-class ParserV(ParserInterface):
+class Parser(ParserInterface):
     def __init__(self, stub):
         self.__stub = stub
 
@@ -57,8 +57,9 @@ class ParserV(ParserInterface):
 
         saving(data=purchase_list, stub=self.get_stub(), filename=self.get_stub().get_purchase_db_name())
 
-    def create_save_lots(self):
-        purchases = load_JSON_data(stub=self.get_stub(), filename=self.get_stub().get_purchase_db_name())
+    def create_save_lots(self, purchases=None):
+        if not purchases:
+            purchases = load_JSON_data(stub=self.get_stub(), filename=self.get_stub().get_purchase_db_name())
         res_lots = []
         for p in purchases:
             if p['lots_num'] > 0:
@@ -69,7 +70,8 @@ class ParserV(ParserInterface):
                     logging.info(lot["p_id"])
                     lot["buyer_name"] = p['fullName']
                     lot["buyer_inn"] = p['inn']
-                    lot['region']=p['inn'][:2]
+                    # TODO region
+                    # lot['region']=p['inn'][:2]
                     if lot["supplier"]:
                         lot["status"] = "OK"
                         lot["supplier_name"] = lot["supplier"]["name"]

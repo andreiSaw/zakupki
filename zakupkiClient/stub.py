@@ -22,14 +22,13 @@ _MORFOLOGY = "morphology=on"
 
 
 class Stub:
-    def __init__(self, query, numFz, target, headers=_HEADERS, purchase_db_name=_PURCHASE_DB_NAME,
+    def __init__(self, query, numFz, headers=_HEADERS, purchase_db_name=_PURCHASE_DB_NAME,
                  search_folder_name=_SEARCH_FOLDER, page_filename=_FILENAME, data_folder_name=_DATA_FOLDER,
                  default_tab=_TAB, len_lot_list=_LEN_LOT_LIST, lots_db_name=_LOTS_DB_NAME,
                  protocol_plug_link=_PROTOCOL_PLUG_LINK, search_page_url=_SEARCH_PAGE_URL, morfology=False,
                  proxy=False):
         self.__numFz = numFz
         self.__query = query
-        self.__target = target
 
         self.__headers = headers
         self.__purchase_db_name = purchase_db_name
@@ -59,9 +58,6 @@ class Stub:
 
     def get_numFz(self):
         return self.__numFz
-
-    def get_target(self):
-        return self.__target
 
     def get_purchase_db_name(self):
         return self.__purchase_db_name

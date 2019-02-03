@@ -93,7 +93,8 @@ def parse_lots(stub, p_id):
                 lots.append(lot)
         rightArrow = soup.find('li', {'class': "rightArrow"})
         if rightArrow:
-            soup = BeautifulSoup(load_page(stub, f"http://zakupki.gov.ru/{rightArrow.find('a').get('href')}"), features="lxml")
+            soup = BeautifulSoup(load_page(stub, f"http://zakupki.gov.ru/{rightArrow.find('a').get('href')}"),
+                                 features="lxml")
         else:
             return lots, lots_num
 
@@ -133,16 +134,24 @@ def parse_xml_customer(soup):
 
 def parse_xml_supplier(soup):
     supplier1 = {"name": "", "inn": ""}
-    supplier = soup.find("ns2:supplierInfo")
-    for tag in supplier1.keys():
-        xml_s = supplier.find(tag)
-        if xml_s:
-            supplier1[tag] = xml_s.text
+
     price = soup.find("ns2:price")
     if price:
-        supplier1['price'] = price.text
+        supplier_price = price.text
     else:
-        supplier1['price'] = None
+        supplier_price = None
+
+    s1 = soup.find("ns2:nonResidentInfo")
+    if s1:  # if nonResidentInfo
+        supplier1["name"] = clear_text(s1.text)
+    else:  # if resident
+        supplier = soup.find("ns2:supplierInfo")
+        for tag in supplier1.keys():
+            xml_s = supplier.find(tag)
+            if xml_s:
+                supplier1[tag] = xml_s.text
+
+    supplier1['price'] = supplier_price
     return supplier1
 
 
