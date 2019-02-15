@@ -1,4 +1,4 @@
-# zakupki detection
+# Fraud detection of government procurement in Russia
 ---
 run virtualenv
 ```shell
