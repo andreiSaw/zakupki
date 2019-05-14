@@ -13,5 +13,6 @@ OR
 ```shell
 cd tests/ && pytest -s -v test_poisk.py
 ```
-
-# Version 1.0
+If you want to activate proxy, you need to set up an environment variables 
+`PROXY_ZAKUPKI_HTTP` and `PROXY_ZAKUPKI_HTTPS` with you `host:port`
+# Version 1.0.1

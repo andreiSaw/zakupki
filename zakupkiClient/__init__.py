@@ -5,4 +5,4 @@ from .util import (load_JSON_data, read_file, saving)
 from .webutils import (load_page, load_search_page, contain_purchase_data,load_parse_purchase_page,
                        check_website_up)
 
-__version__ = "1.0"
+__version__ = "1.0.1"

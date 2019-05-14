@@ -24,10 +24,10 @@ class Parser(ParserInterface):
         logging.info(f'allRecords = {ans}')
         return ans
 
-    def search_save(self, p_limit, offset=1):
-        page = offset
+    def search_save(self, page_limit, page_offset=1):
+        page = page_offset
         path = self.get_stub().get_search_folder_path()
-        while page <= p_limit:
+        while page <= page_limit:
             logging.info('Loading page #%d' % (page))
             _checkDirectory_if_not_create(path)
             filepath = path + self.get_stub().get_page_filename()
@@ -40,12 +40,12 @@ class Parser(ParserInterface):
             else:
                 break
 
-    def parse_save_search_entries(self, p_limit, offset=1):
+    def parse_save_search_entries(self, page_limit, page_offset=1):
         purchase_list = []
-        page = offset
+        page = page_offset
         filepath = self.get_stub().get_search_folder_path() + self.get_stub().get_page_filename()
         logging.info("Openning dir " + filepath)
-        while page <= p_limit:
+        while page <= page_limit:
             filename = filepath % page
             if os.path.isfile(filename):
                 res = parse_search_page(stub=self.get_stub(), filepath=filename)
@@ -56,6 +56,7 @@ class Parser(ParserInterface):
                 break
 
         saving(data=purchase_list, stub=self.get_stub(), filename=self.get_stub().get_purchase_db_name())
+        logging.info('parse_save_search_entries done')
 
     def create_save_lots(self, purchases=None):
         if not purchases:
@@ -77,9 +78,9 @@ class Parser(ParserInterface):
                         lot["supplier_name"] = lot["supplier"]["name"]
                         lot["supplier_inn"] = lot["supplier"]["inn"]
                         lot["price_sold"] = lot["supplier"]["price"]
-                        lot.pop("supplier")
                     else:
                         lot["status"] = "NA"
+                    lot.pop("supplier")
                     # TODO: add clear text to name
                     res_lots.append(lot)
         saving(data=res_lots, filename=self.get_stub().get_lots_db_name(), stub=self.get_stub())

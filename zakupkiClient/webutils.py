@@ -133,7 +133,7 @@ def parse_xml_customer(soup):
 
 
 def parse_xml_supplier(soup):
-    supplier1 = {"name": "", "inn": ""}
+    supplier_plug = {"name": "", "inn": ""}
 
     price = soup.find("ns2:price")
     if price:
@@ -143,16 +143,17 @@ def parse_xml_supplier(soup):
 
     s1 = soup.find("ns2:nonResidentInfo")
     if s1:  # if nonResidentInfo
-        supplier1["name"] = clear_text(s1.text)
+        supplier_plug["name"] = clear_text(s1.text)
     else:  # if resident
         supplier = soup.find("ns2:supplierInfo")
-        for tag in supplier1.keys():
-            xml_s = supplier.find(tag)
-            if xml_s:
-                supplier1[tag] = xml_s.text
+        if supplier:  # if supplier is specified
+            for tag in supplier_plug.keys():
+                xml_s = supplier.find(tag)
+                if xml_s:
+                    supplier_plug[tag] = xml_s.text
 
-    supplier1['price'] = supplier_price
-    return supplier1
+    supplier_plug['price'] = supplier_price
+    return supplier_plug
 
 
 def parse_xml_applications(soup):
@@ -161,7 +162,7 @@ def parse_xml_applications(soup):
         winnerIndication = applic.find("ns2:winnerIndication")
         if not winnerIndication:
             continue
-        # first pos
+        # First pos
         if winnerIndication.text == "F":
             supplier = parse_xml_supplier(applic)
             return supplier
@@ -171,12 +172,13 @@ def parse_xml_applications(soup):
 def parse_xml_lots(soup):
     lots = []
 
-    lotApplicationsList = soup.find('ns2:lotApplicationsList')
-    aList = lotApplicationsList.findAll('ns2:protocolLotApplications')
-    for protocolLotApplications in aList:
+    lotApplicationsList = soup.find('ns2:lotApplicationsList')  # Lots+Applications List
+    protocolLotApplications = lotApplicationsList.findAll(
+        'ns2:protocolLotApplications')  # lot + multiple applications combinations
+    for protocolLotApplications in protocolLotApplications:  # for every lot and applications
         lot1 = {'subject': "", 'initialSum': ""}
         # find lot data
-        lot_xml = protocolLotApplications.find("ns2:lot")
+        lot_xml = protocolLotApplications.find("ns2:lot")  # find lot data
         if not lot_xml:
             return None
         for tag in lot1.keys():
@@ -184,9 +186,8 @@ def parse_xml_lots(soup):
             if not attrs:
                 return None
             lot1[tag] = attrs.text
-        # find applications data
-        application = parse_xml_applications(protocolLotApplications)
-        lot1['supplier'] = application
+        supplier_data = parse_xml_applications(protocolLotApplications)  # find applications data
+        lot1['supplier'] = supplier_data
         lots.append(lot1)
     return lots
 

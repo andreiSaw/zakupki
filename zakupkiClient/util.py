@@ -2,6 +2,7 @@ import json
 import os
 
 
+############ IO
 def read_file(filepath):
     with open(filepath) as input_file:
         text = input_file.read()
@@ -30,9 +31,17 @@ def _dump_JSON_data(stub, data, filename):
     with open(filepath, "w", encoding="UTF-8") as f:
         json.dump(data, f)
 
+
 def saving(stub, data, filename):
     tmp = load_JSON_data(stub=stub, filename=filename)
     if tmp:
         _dump_JSON_data(stub=stub, data=tmp + data, filename=filename)
     else:
         _dump_JSON_data(stub=stub, data=data, filename=filename)
+
+
+################ IO
+def set_proxies():
+    proxy_https = os.environ['PROXY_ZAKUPKI_HTTPS']
+    proxy_http = os.environ['PROXY_ZAKUPKI_HTTP']
+    return {'http': proxy_http, 'https': proxy_https}
