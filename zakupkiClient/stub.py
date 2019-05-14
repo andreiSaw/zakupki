@@ -1,7 +1,7 @@
 import requests
 
 from zakupkiClient.textutils import create_query
-
+from zakupkiClient.util import set_proxies
 _HEADERS = {
     'Referer': 'https://www.abc.com/',
     'User-Agent': 'Mozilla/5.0'
@@ -89,9 +89,8 @@ class Stub:
         self.__s = requests.Session()
         self.__s.headers.update(self.__headers)
         if proxy:
-            proxies = {'http': '127.0.0.1:7070', 'https': '127.0.0.1:7070', }
             # Create the session and set the proxies.
-            self.__s.proxies = proxies
+            self.__s.proxies = set_proxies()
 
     def get_query_dir(self):
         """
