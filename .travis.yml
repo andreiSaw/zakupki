@@ -12,5 +12,5 @@ matrix:
       dist: xenial
       sudo: true
 env:
-  - PROXY_ZAKUPKI_HTTPS=127.0.0.1
-  - PROXY_ZAKUPKI_HTTP=127.0.0.1
+  matrix:
+    - PROXY_ZAKUPKI_HTTPS=127.0.0.1 PROXY_ZAKUPKI_HTTP=127.0.0.1
