@@ -3,7 +3,7 @@ import shutil
 
 import pytest
 
-from zakupkiClient import *
+from src.zakupkiClient import *
 # TODO teardown_module fixture resource_setup
 from zakupkiClient.util import _dump_JSON_data, _checkDirectory_if_not_create
 

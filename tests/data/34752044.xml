@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ns2:purchaseProtocolSummingupZKESMBO
+        xsi:schemaLocation="http://zakupki.gov.ru/223/integration/schema/TFF-9.0.3 http://zakupki.gov.ru/223/integration/schema/TFF-9.0.3/purchase.xsd"
+        xmlns="http://zakupki.gov.ru/223fz/types/1" xmlns:ns20="http://zakupki.gov.ru/223fz/agencyRelation/1"
+        xmlns:ns21="http://zakupki.gov.ru/223fz/exclusion/1"
+        xmlns:ns22="http://zakupki.gov.ru/223fz/machineryListInfo/1"
+        xmlns:ns23="http://zakupki.gov.ru/223fz/ecp-packet/1" xmlns:ns24="http://zakupki.gov.ru/223fz/webRequest/1"
+        xmlns:ns2="http://zakupki.gov.ru/223fz/purchase/1" xmlns:ns3="http://zakupki.gov.ru/223fz/dishonestSupplier/1"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ns4="http://zakupki.gov.ru/223fz/revenue/1"
+        xmlns:ns5="http://zakupki.gov.ru/223fz/orderClauseList/1"
+        xmlns:ns6="http://zakupki.gov.ru/223fz/disagreementProtocol/1"
+        xmlns:ns7="http://zakupki.gov.ru/223fz/customerRegistry/1" xmlns:ns8="http://zakupki.gov.ru/223fz/complaint/1"
+        xmlns:ns9="http://zakupki.gov.ru/223fz/notificationIssue/1"
+        xmlns:ns10="http://zakupki.gov.ru/223fz/purchasePlan/1"
+        xmlns:ns11="http://zakupki.gov.ru/223fz/purchasePlanProject/1"
+        xmlns:ns12="http://zakupki.gov.ru/223fz/typalOrderClauseList/1"
+        xmlns:ns13="http://zakupki.gov.ru/223fz/contract/1" xmlns:ns14="http://zakupki.gov.ru/223fz/missedNotice/1"
+        xmlns:ns15="http://zakupki.gov.ru/223fz/purchasePlanProjectAdditionalPosition/1"
+        xmlns:ns16="http://zakupki.gov.ru/223fz/decisionSuspension/1"
+        xmlns:ns17="http://zakupki.gov.ru/223fz/purchasePlanAdditionalPosition/1"
+        xmlns:ns18="http://zakupki.gov.ru/223fz/stopCommodity/1" xmlns:ns19="http://zakupki.gov.ru/223fz/reference/1">
+    <header>
+        <guid>ec0f4b64-8e8f-41ca-8758-b5c514e802c6</guid>
+        <createDateTime>2019-04-26T17:18:03</createDateTime>
+    </header>
+    <ns2:body>
+        <ns2:item>
+            <guid>37679d4a-d2f3-4e1b-8b08-bcc2d4be02e2</guid>
+            <ns2:purchaseProtocolSummingupZKESMBOData>
+                <ns2:guid>37679d4a-d2f3-4e1b-8b08-bcc2d4be02e2</ns2:guid>
+                <ns2:createDateTime>2019-04-26T17:18:01</ns2:createDateTime>
+                <ns2:urlEIS>
+                    https://zakupki.gov.ru/223/purchase/private/purchase/protocol-info/details.html?protocolInfoId=10625266
+                </ns2:urlEIS>
+                <ns2:purchaseInfo>
+                    <purchaseNoticeNumber>31907777345</purchaseNoticeNumber>
+                    <name>(ЭК84-04-19 СМП/Стулья). Поставка стульев.</name>
+                    <purchaseMethodCode>200610</purchaseMethodCode>
+                    <purchaseCodeName>Запрос котировок в электронной форме, участниками которого могут быть только
+                        субъекты малого и среднего предпринимательства
+                    </purchaseCodeName>
+                    <emergency>false</emergency>
+                </ns2:purchaseInfo>
+                <ns2:registrationNumber>31907777345-02</ns2:registrationNumber>
+                <ns2:placer>
+                    <mainInfo>
+                        <fullName>ЗАКРЫТОЕ АКЦИОНЕРНОЕ ОБЩЕСТВО "СБЕРБАНК-АВТОМАТИЗИРОВАННАЯ СИСТЕМА ТОРГОВ"</fullName>
+                        <shortName>ЗАО "СБЕРБАНК-АСТ"</shortName>
+                        <iko>67707308480770701001</iko>
+                        <inn>7707308480</inn>
+                        <kpp>770701001</kpp>
+                        <ogrn>1027707000441</ogrn>
+                        <legalAddress>127055, Г МОСКВА, УЛ НОВОСЛОБОДСКАЯ, дом 24, корпус СТР.2</legalAddress>
+                        <postalAddress>Большой Саввинский переулок, дом 12, стр. 9 .</postalAddress>
+                        <phone>7-495-7872997</phone>
+                        <fax>7-495-7872998</fax>
+                        <email>FSKordysh@sberbank-ast.ru</email>
+                        <okato>45286585000</okato>
+                        <okopf>12267</okopf>
+                        <okopfName>Непубличные акционерные общества</okopfName>
+                        <okpo>58997535</okpo>
+                    </mainInfo>
+                </ns2:placer>
+                <ns2:customer>
+                    <mainInfo>
+                        <fullName>ФЕДЕРАЛЬНОЕ ГОСУДАРСТВЕННОЕ АВТОНОМНОЕ ОБРАЗОВАТЕЛЬНОЕ УЧРЕЖДЕНИЕ ВЫСШЕГО ОБРАЗОВАНИЯ
+                            "НАЦИОНАЛЬНЫЙ ИССЛЕДОВАТЕЛЬСКИЙ УНИВЕРСИТЕТ "ВЫСШАЯ ШКОЛА ЭКОНОМИКИ"
+                        </fullName>
+                        <shortName>НАЦИОНАЛЬНЫЙ ИССЛЕДОВАТЕЛЬСКИЙ УНИВЕРСИТЕТ "ВЫСШАЯ ШКОЛА ЭКОНОМИКИ";ВЫСШАЯ ШКОЛА
+                            ЭКОНОМИКИ;НИУ ВШЭ;ВШЭ
+                        </shortName>
+                        <iko>57714030726770101001</iko>
+                        <inn>7714030726</inn>
+                        <kpp>770101001</kpp>
+                        <ogrn>1027739630401</ogrn>
+                        <legalAddress>101000, г Москва, ул Мясницкая, дом 20</legalAddress>
+                        <postalAddress>101000 г. Москва ул. Мясницкая, дом 20</postalAddress>
+                        <phone>7-495-6284703</phone>
+                        <fax>7-495-6284703</fax>
+                        <email>hse@hse.ru</email>
+                        <okato>45286555000</okato>
+                        <okopf>75101</okopf>
+                        <okopfName>Федеральные государственные автономные учреждения</okopfName>
+                        <okpo>17701729</okpo>
+                    </mainInfo>
+                </ns2:customer>
+                <ns2:purchaseCancellationReason>ACCESS_GRANTED_ONE</ns2:purchaseCancellationReason>
+                <ns2:publicationDateTime>2019-04-26T17:18:03</ns2:publicationDateTime>
+                <ns2:status>P</ns2:status>
+                <ns2:version>1</ns2:version>
+                <ns2:attachments>
+                    <totalDocumentsCount>1</totalDocumentsCount>
+                    <document>
+                        <guid>394cda25-c610-41c8-b4a6-277b9c673bb5</guid>
+                        <createDateTime>2019-04-26T17:18:02</createDateTime>
+                        <fileName>Итоговый протокол ЭК84.pdf</fileName>
+                        <description>Итоговый протокол ЭК84.pdf</description>
+                        <url>http://zakupki.gov.ru/223/purchase/public/download/download.html?id=51250120</url>
+                    </document>
+                </ns2:attachments>
+                <ns2:type>161917</ns2:type>
+                <ns2:typeName>Итоговый протокол</ns2:typeName>
+                <ns2:targetPhaseCode>0</ns2:targetPhaseCode>
+                <ns2:procedureDate>2019-04-26T17:10:00</ns2:procedureDate>
+                <ns2:procedurePlace>указано в прикрепленном файле</ns2:procedurePlace>
+                <ns2:lotApplicationsList>
+                    <ns2:protocolLotApplications>
+                        <ns2:lot>
+                            <ns2:guid>f3611489-10a7-45f0-96ab-a69e191721a4</ns2:guid>
+                            <ns2:ordinalNumber>1</ns2:ordinalNumber>
+                            <ns2:subject>Поставка стульев.</ns2:subject>
+                            <ns2:currency>
+                                <code>RUB</code>
+                                <digitalCode>643</digitalCode>
+                                <name>Российский рубль</name>
+                            </ns2:currency>
+                            <ns2:initialSum>583800</ns2:initialSum>
+                        </ns2:lot>
+                        <ns2:application>
+                            <ns2:applicationDate>2019-04-23T11:59:11</ns2:applicationDate>
+                            <ns2:applicationNumber>3162</ns2:applicationNumber>
+                            <ns2:notDishonest>true</ns2:notDishonest>
+                            <ns2:provider>false</ns2:provider>
+                            <ns2:price>462000.00</ns2:price>
+                            <ns2:currency>
+                                <code>RUB</code>
+                                <digitalCode>643</digitalCode>
+                                <name>Российский рубль</name>
+                            </ns2:currency>
+                            <ns2:accepted>T</ns2:accepted>
+                            <ns2:winnerIndication>F</ns2:winnerIndication>
+                            <ns2:additionalPrice>462000.00</ns2:additionalPrice>
+                            <ns2:rating>1</ns2:rating>
+                        </ns2:application>
+                    </ns2:protocolLotApplications>
+                </ns2:lotApplicationsList>
+                <ns2:protocolSignDate>2019-04-26</ns2:protocolSignDate>
+                <ns2:templateVersion>1</ns2:templateVersion>
+                <ns2:templateStructure>
+                    <ns2:level>
+                        <ns2:tabLevel>PROTOCOL</ns2:tabLevel>
+                        <ns2:tab>
+                            <tabOrdinal>1</tabOrdinal>
+                            <tabName>Общая информация</tabName>
+                            <fixedName>MAIN</fixedName>
+                            <section>
+                                <sectionOrdinal>1</sectionOrdinal>
+                                <sectionName>Общие сведения</sectionName>
+                                <fixedName>MAIN_INFO</fixedName>
+                            </section>
+                            <section>
+                                <sectionOrdinal>2</sectionOrdinal>
+                                <sectionName>Основание для формирования протокола</sectionName>
+                                <fixedName>MAIN_PROTOCOL_FORMING_BASIS</fixedName>
+                            </section>
+                            <section>
+                                <sectionOrdinal>3</sectionOrdinal>
+                                <sectionName>Место и время проведения процедуры</sectionName>
+                                <fixedName>MAIN_DATE_PLACE</fixedName>
+                            </section>
+                            <section>
+                                <sectionOrdinal>4</sectionOrdinal>
+                                <sectionName>Сведения о комиссии</sectionName>
+                                <fixedName>MAIN_COMM_INFO</fixedName>
+                            </section>
+                            <section>
+                                <sectionOrdinal>5</sectionOrdinal>
+                                <sectionName>Признание закупки несостоявшейся</sectionName>
+                                <fixedName>MAIN_INVALID_INFO</fixedName>
+                            </section>
+                            <section>
+                                <sectionOrdinal>6</sectionOrdinal>
+                                <sectionName>Дополнительная информация</sectionName>
+                                <fixedName>MAIN_ADDITIONAL_INFO</fixedName>
+                            </section>
+                        </ns2:tab>
+                        <ns2:tab>
+                            <tabOrdinal>2</tabOrdinal>
+                            <tabName>Список заявок</tabName>
+                            <fixedName>APP_LIST</fixedName>
+                            <section>
+                                <sectionOrdinal>1</sectionOrdinal>
+                                <sectionName>Лоты закупки</sectionName>
+                                <fixedName>APP_LIST_TABLE</fixedName>
+                            </section>
+                            <section>
+                                <sectionOrdinal>2</sectionOrdinal>
+                                <sectionName>Заявки</sectionName>
+                                <fixedName>APP_APPS</fixedName>
+                            </section>
+                        </ns2:tab>
+                        <ns2:tab>
+                            <tabOrdinal>8</tabOrdinal>
+                            <tabName>Результат оценки</tabName>
+                            <fixedName>ASSESSMENT_RESULT</fixedName>
+                            <section>
+                                <sectionOrdinal>1</sectionOrdinal>
+                                <sectionName>Лоты закупки</sectionName>
+                                <fixedName>ASSESSMENT_RESULT_PURCHASE_LOTS</fixedName>
+                            </section>
+                            <section>
+                                <sectionOrdinal>2</sectionOrdinal>
+                                <sectionName>Информация по заявкам с ассоциированной таблицей</sectionName>
+                                <fixedName>ASSESSMENT_RESULT_ASSOCIATED_PURCHASE_INFO</fixedName>
+                            </section>
+                            <section>
+                                <sectionOrdinal>3</sectionOrdinal>
+                                <sectionName>Решение комиссии. Оценка</sectionName>
+                                <fixedName>ASSESSMENT_RESULT_COMM_DECISION</fixedName>
+                            </section>
+                        </ns2:tab>
+                        <ns2:tab>
+                            <tabOrdinal>9</tabOrdinal>
+                            <tabName>Документация</tabName>
+                            <fixedName>DOCS</fixedName>
+                            <section>
+                                <sectionOrdinal>1</sectionOrdinal>
+                                <sectionName>Документы</sectionName>
+                                <fixedName>DOCS</fixedName>
+                            </section>
+                        </ns2:tab>
+                    </ns2:level>
+                    <ns2:level>
+                        <ns2:tabLevel>APPLICATION</ns2:tabLevel>
+                        <ns2:tab>
+                            <tabOrdinal>3</tabOrdinal>
+                            <tabName>Формирование заявки</tabName>
+                            <fixedName>APP_INFO</fixedName>
+                            <section>
+                                <sectionOrdinal>1</sectionOrdinal>
+                                <sectionName>Сведения об участнике</sectionName>
+                                <fixedName>APP_INFO_MEMBER</fixedName>
+                            </section>
+                            <section>
+                                <sectionOrdinal>2</sectionOrdinal>
+                                <sectionName>Сведения о заявке</sectionName>
+                                <fixedName>APP_INFO</fixedName>
+                            </section>
+                        </ns2:tab>
+                    </ns2:level>
+                </ns2:templateStructure>
+                <ns2:templateBlocks>
+                    <hideCommDecision>true</hideCommDecision>
+                    <hideCommDecisionAccess>true</hideCommDecisionAccess>
+                    <hideCommDecisionResult>false</hideCommDecisionResult>
+                    <hideProcedure>false</hideProcedure>
+                    <hideCancellation>false</hideCancellation>
+                </ns2:templateBlocks>
+                <ns2:extendFields>
+                    <protocolExtendField>
+                        <extendField>
+                            <integrCode>emPlacementDate</integrCode>
+                            <description>Размещено на ЭП</description>
+                            <type>DATETIME</type>
+                            <value>
+                                <dateTime>2019-04-26T17:16:00</dateTime>
+                            </value>
+                        </extendField>
+                        <extendField>
+                            <integrCode>emProtocolUrl</integrCode>
+                            <description>Протокол на ЭП</description>
+                            <type>LINK</type>
+                            <value>
+                                <url>425294</url>
+                            </value>
+                        </extendField>
+                        <position>
+                            <tabOrdinal>1</tabOrdinal>
+                            <tabName>MAIN</tabName>
+                            <sectionOrdinal>1</sectionOrdinal>
+                            <sectionName>MAIN_INFO</sectionName>
+                        </position>
+                    </protocolExtendField>
+                </ns2:extendFields>
+            </ns2:purchaseProtocolSummingupZKESMBOData>
+        </ns2:item>
+    </ns2:body>
+</ns2:purchaseProtocolSummingupZKESMBO>

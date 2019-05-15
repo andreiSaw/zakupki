@@ -1,10 +1,7 @@
 import os
-import shutil
 
-import pytest
-
-from zakupkiClient import *
 from zakupkiClient.util import set_proxies
+
 
 def test_proxy():
     assert os.environ['PROXY_ZAKUPKI_HTTPS']

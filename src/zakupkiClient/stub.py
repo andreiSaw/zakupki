@@ -1,6 +1,6 @@
 import requests
 
-from zakupkiClient.textutils import create_query
+from zakupkiClient import create_query
 from zakupkiClient.util import set_proxies
 _HEADERS = {
     'Referer': 'https://www.abc.com/',

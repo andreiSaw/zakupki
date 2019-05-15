@@ -1,0 +1,424 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ns2:purchaseProtocol
+        xsi:schemaLocation="http://zakupki.gov.ru/223/integration/schema/TFF-3.4 http://zakupki.gov.ru/223/integration/schema/TFF-3.4/purchase.xsd"
+        xmlns:ns5="http://zakupki.gov.ru/223fz/purchasePlan/1" xmlns="http://zakupki.gov.ru/223fz/types/1"
+        xmlns:ns6="http://zakupki.gov.ru/223fz/dishonestSupplier/1" xmlns:ns7="http://zakupki.gov.ru/223fz/complaint/1"
+        xmlns:ns8="http://zakupki.gov.ru/223fz/reference/1" xmlns:ns9="http://zakupki.gov.ru/223fz/webRequest/1"
+        xmlns:ns2="http://zakupki.gov.ru/223fz/purchase/1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:ns3="http://zakupki.gov.ru/223fz/revenue/1" xmlns:ns4="http://zakupki.gov.ru/223fz/orderClauseList/1">
+    <header>
+        <guid>96eac6bc-697b-4e50-ab3c-969fd2074d55</guid>
+        <createDateTime>2014-04-22T15:45:26</createDateTime>
+    </header>
+    <ns2:body>
+        <ns2:item>
+            <guid>1eee3a24-a5f0-4f70-85ce-33a778a7ec14</guid>
+            <ns2:purchaseProtocolData>
+                <ns2:guid>1eee3a24-a5f0-4f70-85ce-33a778a7ec14</ns2:guid>
+                <ns2:createDateTime>2014-04-22T15:33:50</ns2:createDateTime>
+                <ns2:urlOOS>
+                    https://zakupki.gov.ru/223/purchase/private/purchase/protocol-info/details.html?protocolInfoId=1269094
+                </ns2:urlOOS>
+                <ns2:purchaseInfo>
+                    <purchaseNoticeNumber>31400935277</purchaseNoticeNumber>
+                    <name>Поставка полноприводных автомобилей технологического назначения для ОАО "Ростелеком"</name>
+                    <purchaseMethodCode>32321</purchaseMethodCode>
+                    <purchaseCodeName>Открытый запрос предложений в электронной форме</purchaseCodeName>
+                </ns2:purchaseInfo>
+                <ns2:registrationNumber>31400935277-03</ns2:registrationNumber>
+                <ns2:placer>
+                    <mainInfo>
+                        <fullName>Открытое акционерное общество междугородной и международной электрической связи
+                            "Ростелеком"
+                        </fullName>
+                        <shortName>ОАО "Ростелеком"</shortName>
+                        <inn>7707049388</inn>
+                        <kpp>784001001</kpp>
+                        <ogrn>1027700198767</ogrn>
+                        <legalAddress>191002, Санкт-Петербург, Достоевского, дом 15</legalAddress>
+                        <postalAddress>125047, Москва город, Тверская-Ямская 1-я улица, дом 14</postalAddress>
+                        <phone>+7</phone>
+                        <fax>+7</fax>
+                        <email>duz@rt.ru</email>
+                        <okato>40298566000</okato>
+                    </mainInfo>
+                </ns2:placer>
+                <ns2:customer>
+                    <mainInfo>
+                        <fullName>Открытое акционерное общество междугородной и международной электрической связи
+                            "Ростелеком"
+                        </fullName>
+                        <shortName>ОАО "Ростелеком"</shortName>
+                        <inn>7707049388</inn>
+                        <kpp>784001001</kpp>
+                        <ogrn>1027700198767</ogrn>
+                        <legalAddress>191002, Санкт-Петербург, Достоевского, дом 15</legalAddress>
+                        <postalAddress>125047, Москва город, Тверская-Ямская 1-я улица, дом 14</postalAddress>
+                        <phone>+7</phone>
+                        <fax>+7</fax>
+                        <email>duz@rt.ru</email>
+                        <okato>40298566000</okato>
+                    </mainInfo>
+                </ns2:customer>
+                <ns2:publicationDateTime>2014-04-22T15:45:26</ns2:publicationDateTime>
+                <ns2:status>P</ns2:status>
+                <ns2:version>1</ns2:version>
+                <ns2:attachments>
+                    <totalDocumentsCount>1</totalDocumentsCount>
+                    <document>
+                        <guid>0DA7B5E5-E943-4A68-B1B7-BDEA3242F319</guid>
+                        <createDateTime>2014-04-22T15:42:55</createDateTime>
+                        <fileName>Протокол переторжки, подведения итогов.rar</fileName>
+                        <description>Протокол переторжки, подведения итогов</description>
+                        <url>http://zakupki.gov.ru/223/purchase/public/download/download.html?id=5801718</url>
+                    </document>
+                </ns2:attachments>
+                <ns2:type>11860</ns2:type>
+                <ns2:typeName>Протокол подведения итогов переторжки</ns2:typeName>
+                <ns2:procedureDate>2014-04-16T12:00:00</ns2:procedureDate>
+                <ns2:procedurePlace>ОАО "Ростелеком"</ns2:procedurePlace>
+                <ns2:lotApplicationsList>
+                    <ns2:protocolLotApplications>
+                        <ns2:lot>
+                            <ns2:guid>2458d5b7-22dd-ad9c-49c9-8205b1400496</ns2:guid>
+                            <ns2:ordinalNumber>1</ns2:ordinalNumber>
+                            <ns2:subject>Заявка на закупку по инвестиционной деятельности более 100 млн. в российских
+                                рублях Поставка автомобилей грузопассажирский фургон цельнометаллический полноприводный
+                            </ns2:subject>
+                            <ns2:currency>
+                                <code>RUB</code>
+                                <digitalCode>643</digitalCode>
+                                <name>Российский рубль</name>
+                            </ns2:currency>
+                            <ns2:initialSum>64419848.51</ns2:initialSum>
+                        </ns2:lot>
+                        <ns2:application>
+                            <ns2:applicationDate>2014-03-26T09:41:40</ns2:applicationDate>
+                            <ns2:applicationNumber>1</ns2:applicationNumber>
+                            <ns2:supplierInfo>
+                                <name>Общество с ограниченной ответственностью "Дистрибьюторский центр УАЗ"</name>
+                                <inn>7327056389</inn>
+                                <kpp>732701001</kpp>
+                                <ogrn>1107327004091</ogrn>
+                                <type>L</type>
+                            </ns2:supplierInfo>
+                            <ns2:price>61232675</ns2:price>
+                            <ns2:currency>
+                                <code>RUB</code>
+                                <digitalCode>643</digitalCode>
+                                <name>Российский рубль</name>
+                            </ns2:currency>
+                            <ns2:accepted>T</ns2:accepted>
+                            <ns2:winnerIndication>S</ns2:winnerIndication>
+                        </ns2:application>
+                        <ns2:application>
+                            <ns2:applicationDate>2014-03-31T09:10:26</ns2:applicationDate>
+                            <ns2:applicationNumber>2</ns2:applicationNumber>
+                            <ns2:supplierInfo>
+                                <name>Общество с ограниченной ответственностью «Коммерческие автомобили-Группа ГАЗ»
+                                </name>
+                                <inn>5256051148</inn>
+                                <kpp>525350001</kpp>
+                                <ogrn>1045207058687</ogrn>
+                                <type>L</type>
+                            </ns2:supplierInfo>
+                            <ns2:price>62023920.67</ns2:price>
+                            <ns2:currency>
+                                <code>RUB</code>
+                                <digitalCode>643</digitalCode>
+                                <name>Российский рубль</name>
+                            </ns2:currency>
+                            <ns2:accepted>T</ns2:accepted>
+                            <ns2:winnerIndication>F</ns2:winnerIndication>
+                        </ns2:application>
+                    </ns2:protocolLotApplications>
+                    <ns2:protocolLotApplications>
+                        <ns2:lot>
+                            <ns2:guid>3e425be5-5a04-a815-b76f-078c1b2a9d34</ns2:guid>
+                            <ns2:ordinalNumber>2</ns2:ordinalNumber>
+                            <ns2:subject>Заявка на закупку по инвестиционной деятельности более 100 млн. в российских
+                                рублях Поставка автомобилей грузопассажирский с бортовой платформой полноприводный
+                            </ns2:subject>
+                            <ns2:currency>
+                                <code>RUB</code>
+                                <digitalCode>643</digitalCode>
+                                <name>Российский рубль</name>
+                            </ns2:currency>
+                            <ns2:initialSum>58349399.52</ns2:initialSum>
+                        </ns2:lot>
+                        <ns2:application>
+                            <ns2:applicationDate>2014-03-31T09:24:24</ns2:applicationDate>
+                            <ns2:applicationNumber>2</ns2:applicationNumber>
+                            <ns2:supplierInfo>
+                                <name>Общество с ограниченной ответственностью «Коммерческие автомобили-Группа ГАЗ»
+                                </name>
+                                <inn>5256051148</inn>
+                                <kpp>525350001</kpp>
+                                <ogrn>1045207058687</ogrn>
+                                <type>L</type>
+                            </ns2:supplierInfo>
+                            <ns2:price>54566757.33</ns2:price>
+                            <ns2:currency>
+                                <code>RUB</code>
+                                <digitalCode>643</digitalCode>
+                                <name>Российский рубль</name>
+                            </ns2:currency>
+                            <ns2:accepted>T</ns2:accepted>
+                            <ns2:winnerIndication>F</ns2:winnerIndication>
+                        </ns2:application>
+                        <ns2:application>
+                            <ns2:applicationDate>2014-03-26T10:04:21</ns2:applicationDate>
+                            <ns2:applicationNumber>1</ns2:applicationNumber>
+                            <ns2:supplierInfo>
+                                <name>Общество с ограниченной ответственностью "Дистрибьюторский центр УАЗ"</name>
+                                <inn>7327056389</inn>
+                                <kpp>732701001</kpp>
+                                <ogrn>1107327004091</ogrn>
+                                <type>L</type>
+                            </ns2:supplierInfo>
+                            <ns2:price>57189600</ns2:price>
+                            <ns2:currency>
+                                <code>RUB</code>
+                                <digitalCode>643</digitalCode>
+                                <name>Российский рубль</name>
+                            </ns2:currency>
+                            <ns2:accepted>T</ns2:accepted>
+                            <ns2:winnerIndication>S</ns2:winnerIndication>
+                        </ns2:application>
+                    </ns2:protocolLotApplications>
+                    <ns2:protocolLotApplications>
+                        <ns2:lot>
+                            <ns2:guid>252ed87a-3414-feb0-25e9-df9ba7661c2f</ns2:guid>
+                            <ns2:ordinalNumber>3</ns2:ordinalNumber>
+                            <ns2:subject>Заявка на закупку по инвестиционной деятельности более 100 млн. в российских
+                                рублях Поставка автомобилей пассажирский фургон цельнометаллический полноприводный
+                            </ns2:subject>
+                            <ns2:currency>
+                                <code>RUB</code>
+                                <digitalCode>643</digitalCode>
+                                <name>Российский рубль</name>
+                            </ns2:currency>
+                            <ns2:initialSum>9134049.92</ns2:initialSum>
+                        </ns2:lot>
+                        <ns2:application>
+                            <ns2:applicationDate>2014-03-31T09:41:39</ns2:applicationDate>
+                            <ns2:applicationNumber>2</ns2:applicationNumber>
+                            <ns2:supplierInfo>
+                                <name>Общество с ограниченной ответственностью «Коммерческие автомобили-Группа ГАЗ»
+                                </name>
+                                <inn>5256051148</inn>
+                                <kpp>525350001</kpp>
+                                <ogrn>1045207058687</ogrn>
+                                <type>L</type>
+                            </ns2:supplierInfo>
+                            <ns2:price>8981800.27</ns2:price>
+                            <ns2:currency>
+                                <code>RUB</code>
+                                <digitalCode>643</digitalCode>
+                                <name>Российский рубль</name>
+                            </ns2:currency>
+                            <ns2:accepted>T</ns2:accepted>
+                            <ns2:winnerIndication>F</ns2:winnerIndication>
+                        </ns2:application>
+                        <ns2:application>
+                            <ns2:applicationDate>2014-03-28T11:29:37</ns2:applicationDate>
+                            <ns2:applicationNumber>1</ns2:applicationNumber>
+                            <ns2:supplierInfo>
+                                <name>Общество с ограниченной ответственностью "Дистрибьюторский центр УАЗ"</name>
+                                <inn>7327056389</inn>
+                                <kpp>732701001</kpp>
+                                <ogrn>1107327004091</ogrn>
+                                <type>L</type>
+                            </ns2:supplierInfo>
+                            <ns2:price>9047800</ns2:price>
+                            <ns2:currency>
+                                <code>RUB</code>
+                                <digitalCode>643</digitalCode>
+                                <name>Российский рубль</name>
+                            </ns2:currency>
+                            <ns2:accepted>T</ns2:accepted>
+                            <ns2:winnerIndication>S</ns2:winnerIndication>
+                        </ns2:application>
+                    </ns2:protocolLotApplications>
+                    <ns2:protocolLotApplications>
+                        <ns2:lot>
+                            <ns2:guid>1822b68c-2e54-0237-631a-55e9bb968f15</ns2:guid>
+                            <ns2:ordinalNumber>4</ns2:ordinalNumber>
+                            <ns2:subject>Заявка на закупку по инвестиционной деятельности более 100 млн. в российских
+                                рублях Поставка автомобилей легковой рамный универсал полноприводный
+                            </ns2:subject>
+                            <ns2:currency>
+                                <code>RUB</code>
+                                <digitalCode>643</digitalCode>
+                                <name>Российский рубль</name>
+                            </ns2:currency>
+                            <ns2:initialSum>2879699.94</ns2:initialSum>
+                        </ns2:lot>
+                        <ns2:application>
+                            <ns2:applicationDate>2014-03-26T10:13:49</ns2:applicationDate>
+                            <ns2:applicationNumber>1</ns2:applicationNumber>
+                            <ns2:supplierInfo>
+                                <name>Общество с ограниченной ответственностью "Дистрибьюторский центр УАЗ"</name>
+                                <inn>7327056389</inn>
+                                <kpp>732701001</kpp>
+                                <ogrn>1107327004091</ogrn>
+                                <type>L</type>
+                            </ns2:supplierInfo>
+                            <ns2:price>2828400</ns2:price>
+                            <ns2:currency>
+                                <code>RUB</code>
+                                <digitalCode>643</digitalCode>
+                                <name>Российский рубль</name>
+                            </ns2:currency>
+                            <ns2:accepted>T</ns2:accepted>
+                            <ns2:winnerIndication>F</ns2:winnerIndication>
+                        </ns2:application>
+                    </ns2:protocolLotApplications>
+                    <ns2:protocolLotApplications>
+                        <ns2:lot>
+                            <ns2:guid>d17733cb-669c-8ee3-26c6-f09c1a527b7b</ns2:guid>
+                            <ns2:ordinalNumber>5</ns2:ordinalNumber>
+                            <ns2:subject>Заявка на закупку по инвестиционной деятельности более 100 млн. в российских
+                                рублях Поставка автомобиля легковой рамный пикап полноприводный
+                            </ns2:subject>
+                            <ns2:currency>
+                                <code>RUB</code>
+                                <digitalCode>643</digitalCode>
+                                <name>Российский рубль</name>
+                            </ns2:currency>
+                            <ns2:initialSum>634950</ns2:initialSum>
+                        </ns2:lot>
+                        <ns2:application>
+                            <ns2:applicationDate>2014-03-26T10:30:04</ns2:applicationDate>
+                            <ns2:applicationNumber>1</ns2:applicationNumber>
+                            <ns2:supplierInfo>
+                                <name>Общество с ограниченной ответственностью "Дистрибьюторский центр УАЗ"</name>
+                                <inn>7327056389</inn>
+                                <kpp>732701001</kpp>
+                                <ogrn>1107327004091</ogrn>
+                                <type>L</type>
+                            </ns2:supplierInfo>
+                            <ns2:price>633000</ns2:price>
+                            <ns2:currency>
+                                <code>RUB</code>
+                                <digitalCode>643</digitalCode>
+                                <name>Российский рубль</name>
+                            </ns2:currency>
+                            <ns2:accepted>T</ns2:accepted>
+                            <ns2:winnerIndication>F</ns2:winnerIndication>
+                        </ns2:application>
+                    </ns2:protocolLotApplications>
+                    <ns2:protocolLotApplications>
+                        <ns2:lot>
+                            <ns2:guid>751ee9c5-58c8-8fca-750b-5799a85db7a3</ns2:guid>
+                            <ns2:ordinalNumber>6</ns2:ordinalNumber>
+                            <ns2:subject>Заявка на закупку по инвестиционной деятельности более 100 млн. в российских
+                                рублях Поставка грузового полноприводного среднетоннажного автомобиля с бортовой
+                                платформой
+                            </ns2:subject>
+                            <ns2:currency>
+                                <code>RUB</code>
+                                <digitalCode>643</digitalCode>
+                                <name>Российский рубль</name>
+                            </ns2:currency>
+                            <ns2:initialSum>1088100</ns2:initialSum>
+                        </ns2:lot>
+                        <ns2:application>
+                            <ns2:applicationDate>2014-03-29T11:35:02</ns2:applicationDate>
+                            <ns2:applicationNumber>1</ns2:applicationNumber>
+                            <ns2:supplierInfo>
+                                <name>Общество с ограниченной ответственностью «Коммерческие автомобили-Группа ГАЗ»
+                                </name>
+                                <inn>5256051148</inn>
+                                <kpp>525350001</kpp>
+                                <ogrn>1045207058687</ogrn>
+                                <type>L</type>
+                            </ns2:supplierInfo>
+                            <ns2:price>1033695</ns2:price>
+                            <ns2:currency>
+                                <code>RUB</code>
+                                <digitalCode>643</digitalCode>
+                                <name>Российский рубль</name>
+                            </ns2:currency>
+                            <ns2:accepted>T</ns2:accepted>
+                            <ns2:winnerIndication>F</ns2:winnerIndication>
+                        </ns2:application>
+                    </ns2:protocolLotApplications>
+                    <ns2:protocolLotApplications>
+                        <ns2:lot>
+                            <ns2:guid>d91808d6-542c-5571-ff0d-35a18c0d1084</ns2:guid>
+                            <ns2:ordinalNumber>7</ns2:ordinalNumber>
+                            <ns2:subject>Заявка на закупку по инвестиционной деятельности более 100 млн. в российских
+                                рублях Поставка грузового полноприводного среднетоннажного автомобиля с фургоном и
+                                сдвоенной кабиной
+                            </ns2:subject>
+                            <ns2:currency>
+                                <code>RUB</code>
+                                <digitalCode>643</digitalCode>
+                                <name>Российский рубль</name>
+                            </ns2:currency>
+                            <ns2:initialSum>1544550</ns2:initialSum>
+                        </ns2:lot>
+                        <ns2:application>
+                            <ns2:applicationDate>2014-03-31T09:45:11</ns2:applicationDate>
+                            <ns2:applicationNumber>1</ns2:applicationNumber>
+                            <ns2:supplierInfo>
+                                <name>Общество с ограниченной ответственностью «Коммерческие автомобили-Группа ГАЗ»
+                                </name>
+                                <inn>5256051148</inn>
+                                <kpp>525350001</kpp>
+                                <ogrn>1045207058687</ogrn>
+                                <type>L</type>
+                            </ns2:supplierInfo>
+                            <ns2:price>1327150</ns2:price>
+                            <ns2:currency>
+                                <code>RUB</code>
+                                <digitalCode>643</digitalCode>
+                                <name>Российский рубль</name>
+                            </ns2:currency>
+                            <ns2:accepted>T</ns2:accepted>
+                            <ns2:winnerIndication>F</ns2:winnerIndication>
+                        </ns2:application>
+                    </ns2:protocolLotApplications>
+                    <ns2:protocolLotApplications>
+                        <ns2:lot>
+                            <ns2:guid>144a444f-6d40-d4c4-0b8f-c9bef026f4a5</ns2:guid>
+                            <ns2:ordinalNumber>8</ns2:ordinalNumber>
+                            <ns2:subject>Заявка на закупку по инвестиционной деятельности более 100 млн. в российских
+                                рублях Поставка полноприводного грузопассажирского автомобиля с бортовой платформой,
+                                осныщенного блокируемым дифференциалом заднего моста
+                            </ns2:subject>
+                            <ns2:currency>
+                                <code>RUB</code>
+                                <digitalCode>643</digitalCode>
+                                <name>Российский рубль</name>
+                            </ns2:currency>
+                            <ns2:initialSum>686399.99</ns2:initialSum>
+                        </ns2:lot>
+                        <ns2:application>
+                            <ns2:applicationDate>2014-03-29T10:47:59</ns2:applicationDate>
+                            <ns2:applicationNumber>1</ns2:applicationNumber>
+                            <ns2:supplierInfo>
+                                <name>Общество с ограниченной ответственностью «Коммерческие автомобили-Группа ГАЗ»
+                                </name>
+                                <inn>5256051148</inn>
+                                <kpp>525350001</kpp>
+                                <ogrn>1045207058687</ogrn>
+                                <type>L</type>
+                            </ns2:supplierInfo>
+                            <ns2:price>659205</ns2:price>
+                            <ns2:currency>
+                                <code>RUB</code>
+                                <digitalCode>643</digitalCode>
+                                <name>Российский рубль</name>
+                            </ns2:currency>
+                            <ns2:accepted>T</ns2:accepted>
+                            <ns2:winnerIndication>F</ns2:winnerIndication>
+                        </ns2:application>
+                    </ns2:protocolLotApplications>
+                </ns2:lotApplicationsList>
+                <ns2:protocolSignDate>2014-04-16</ns2:protocolSignDate>
+            </ns2:purchaseProtocolData>
+        </ns2:item>
+    </ns2:body>
+</ns2:purchaseProtocol>
