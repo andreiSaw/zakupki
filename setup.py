@@ -28,7 +28,7 @@ setup(name="zakupkiClient",
       long_description=open('README.md').read(),
       author='Andrey',
       author_email='isaevnextdoor@gmail.com',
-      packages=find_packages('src'),
+      packages=find_packages(where='src'),
       package_dir={'': 'src'},
       py_modules=[splitext(basename(path))[0] for path in glob('src/*.py')],
       install_requires=requirements
