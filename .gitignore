@@ -12,3 +12,6 @@ __pycache__/
 *.egg-info
 
 notebooks/data/
+
+# logs
+*.log
