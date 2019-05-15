@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.com/andreiSaw/zakupki.svg?branch=master)](https://travis-ci.com/andreiSaw/zakupki)
 # Fraud detection of government procurement in Russia
 ## term project 2018 - 2019
 ---
