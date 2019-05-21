@@ -1,7 +1,7 @@
 import requests
 
-from src.zakupkiClient.webutils import create_query
-from src.zakupkiClient.util import set_proxies
+from zakupkiClient.webutils import create_query
+from zakupkiClient.util import set_proxies
 
 _HEADERS = {
     'Referer': 'https://www.abc.com/',
