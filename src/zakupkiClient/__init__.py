@@ -4,7 +4,6 @@ from .textutils import (
     clear_text,
     get_id_from_url,
     create_query,
-    parse_datetime
 )
 from .util import (
     load_JSON_data,

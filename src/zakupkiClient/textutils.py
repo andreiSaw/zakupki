@@ -14,7 +14,3 @@ def get_id_from_url(content):
 
 def create_query(content):
     return u"+".join(content.split(u' '))
-
-
-def parse_datetime(timestr):
-    return dateutil.parser.parse(timestr)
