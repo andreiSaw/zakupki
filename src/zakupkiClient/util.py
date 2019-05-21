@@ -1,5 +1,6 @@
 import json
 import os
+import datetime
 
 
 ############ IO
@@ -29,7 +30,7 @@ def _dump_JSON_data(stub, data, filename):
     _checkDirectory_if_not_create(stub.get_query_dir())
     filepath = stub.get_filename(filename=filename)
     with open(filepath, "w", encoding="UTF-8") as f:
-        json.dump(data, f)
+        json.dump(obj=data, fp=f, default=default_json_datetime)
 
 
 def saving(stub, data, filename):
@@ -38,6 +39,11 @@ def saving(stub, data, filename):
         _dump_JSON_data(stub=stub, data=tmp + data, filename=filename)
     else:
         _dump_JSON_data(stub=stub, data=data, filename=filename)
+
+
+def default_json_datetime(o):
+    if isinstance(o, (datetime.date, datetime.datetime)):
+        return o.isoformat()
 
 
 ################ IO

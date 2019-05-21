@@ -64,24 +64,16 @@ class Parser(ParserInterface):
         res_lots = []
         for p in purchases:
             if p['lots_num'] > 0:
-                lotslist = p['lots']
-                for lot in lotslist:
+                for lot in p['lots']:
                     lot["p_id"] = p['purchase_id']
                     lot["date"] = p['date']
-                    logging.info(lot["p_id"])
+                    logging.info("purchase #" + lot["p_id"])
                     lot["buyer_name"] = p['fullName']
                     lot["buyer_inn"] = p['inn']
-                    # TODO region
-                    # lot['region']=p['inn'][:2]
-                    if lot["supplier"]:
-                        lot["status"] = "OK"
-                        lot["supplier_name"] = lot["supplier"]["name"]
-                        lot["supplier_inn"] = lot["supplier"]["inn"]
-                        lot["price_sold"] = lot["supplier"]["price"]
+                    if p['inn']:
+                        lot['region'] = p['inn'][:2]
                     else:
-                        lot["status"] = "NA"
-                    lot.pop("supplier")
-                    # TODO: add clear text to name
+                        lot['region'] = None
                     res_lots.append(lot)
         saving(data=res_lots, filename=self.get_stub().get_lots_db_name(), stub=self.get_stub())
 

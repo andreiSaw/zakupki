@@ -132,14 +132,17 @@ def parse_xml_customer(soup):
     return customer
 
 
-def parse_xml_supplier(soup):
-    supplier_plug = {"name": "", "inn": ""}
+def parse_xml_bid(soup):
+    supplier_plug = {"name": "", "inn": "", }
+    bid_plug = {"bid_date": None, "price": None}
 
     price = soup.find("ns2:price")
     if price:
-        supplier_price = price.text
-    else:
-        supplier_price = None
+        bid_plug['price'] = price.text
+
+    date = soup.find("ns2:applicationDate")
+    if date:
+        bid_plug['bid_date'] = date.text
 
     s1 = soup.find("ns2:nonResidentInfo")
     if s1:  # if nonResidentInfo
@@ -151,22 +154,23 @@ def parse_xml_supplier(soup):
                 xml_s = supplier.find(tag)
                 if xml_s:
                     supplier_plug[tag] = xml_s.text
-
-    supplier_plug['price'] = supplier_price
-    return supplier_plug
+    bid_plug.update(supplier_plug)
+    return bid_plug
 
 
 def parse_xml_applications(soup):
+    bids = []
     applications = soup.findAll("ns2:application")
+    no_of_participants = 0
     for applic in applications:
+        one_bid = parse_xml_bid(applic)
         winnerIndication = applic.find("ns2:winnerIndication")
-        if not winnerIndication:
-            continue
-        # First pos
-        if winnerIndication.text == "F":
-            supplier = parse_xml_supplier(applic)
-            return supplier
-    return None
+        if winnerIndication and winnerIndication.text == "F":
+            one_bid['winnerIndication'] = True
+        no_of_participants += 1
+        bids.append(one_bid)
+    logging.info(f'no_of_participants {no_of_participants}')
+    return bids
 
 
 def parse_xml_lots(soup):
@@ -186,8 +190,8 @@ def parse_xml_lots(soup):
             if not attrs:
                 return None
             lot1[tag] = attrs.text
-        supplier_data = parse_xml_applications(protocolLotApplications)  # find applications data
-        lot1['supplier'] = supplier_data
+        bids = parse_xml_applications(protocolLotApplications)  # find applications data
+        lot1['bids'] = bids
         lots.append(lot1)
     return lots
 
