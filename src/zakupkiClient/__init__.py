@@ -1,14 +1,14 @@
 from .parser import Parser
 from .stub import Stub
 from .textutils import (
-    clear_text,
+    clear_text_from_xml,
     get_id_from_url,
     create_query,
+    clear_text
 )
 from .util import (
-    load_JSON_data,
-    read_file,
-    saving
+    load_json_data,
+    read_file
 )
 from .webutils import (
     load_page,
@@ -17,5 +17,7 @@ from .webutils import (
     load_parse_purchase_page,
     check_website_up
 )
+
+from .dbclient import DbApi
 
 __version__ = "1.0.1"

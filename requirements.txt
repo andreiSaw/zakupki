@@ -5,3 +5,5 @@ beautifulsoup4
 requests
 pytest
 lxml
+sqlalchemy
+psycopg2

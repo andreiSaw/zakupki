@@ -9,12 +9,16 @@ def read_file(filepath):
     return text
 
 
-def _checkDirectory_if_not_create(directory):
+def _check_directory_create(directory):
+    """
+    check if dir exists and if not create dir
+    :param directory: dir name
+    """
     if not os.path.exists(directory):
         os.makedirs(directory)
 
 
-def load_JSON_data(stub, filename):
+def load_json_data(stub, filename):
     filepath = stub.get_filename(filename=filename)
     if not os.path.isfile(filepath):
         return []
@@ -25,19 +29,11 @@ def load_JSON_data(stub, filename):
         return []
 
 
-def _dump_JSON_data(stub, data, filename):
-    _checkDirectory_if_not_create(stub.get_query_dir())
+def _dump_json_data(stub, data, filename):
+    _check_directory_create(stub.get_query_dir())
     filepath = stub.get_filename(filename=filename)
     with open(filepath, "w", encoding="UTF-8") as f:
         json.dump(obj=data, fp=f)
-
-
-def saving(stub, data, filename):
-    tmp = load_JSON_data(stub=stub, filename=filename)
-    if tmp:
-        _dump_JSON_data(stub=stub, data=tmp + data, filename=filename)
-    else:
-        _dump_JSON_data(stub=stub, data=data, filename=filename)
 
 
 ################ IO

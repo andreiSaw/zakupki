@@ -2,18 +2,18 @@ import requests
 
 from zakupkiClient.webutils import create_query
 from zakupkiClient.util import set_proxies
+import sqlalchemy as db
 
 _HEADERS = {
     'Referer': 'https://www.abc.com/',
     'User-Agent': 'Mozilla/5.0'
 }
 _PURCHASE_DB_NAME = "db.json"
-_SEARCH_FOLDER = "search/"
+_SEARCH_FOLDER_NAME = "search/"
 _FILENAME = "page_%s.html"
 _DATA_FOLDER = "data/%s/"
 _PURCHASE_INFO = {"223": "http://zakupki.gov.ru/%s/purchase/public/purchase/info/%s.html?regNumber=%s",
                   "44": "http://zakupki.gov.ru/epz/order/notice/ea%s/view/%s.html?regNumber=%s"}
-# _STOPLISTNAME = "stopwords.json"
 _TAB = "common-info"
 _LEN_LOT_LIST = 6
 _LOTS_DB_NAME = "lots.json"
@@ -21,19 +21,18 @@ _PROTOCOL_PLUG_LINK = "http://zakupki.gov.ru%s"
 _SEARCH_PAGE_URL = \
     "http://zakupki.gov.ru/epz/order/quicksearch/search.html?searchString=%s&%s&pageNumber=%d&sortDirection=false&recordsPerPage=_10&showLotsInfoHidden=false&fz%s=on&pc=on&currencyId=-1&regionDeleted=false&sortBy=UPDATE_DATE"
 _P_ID_TEST = {"223": "31807061497", "44": "0158300003218000137"}
-_MORFOLOGY = "morphology=on"
+_MORPHOLOGY = "morphology=on"
 
 
 class Stub:
-    def __init__(self, query, numFz, headers=_HEADERS, purchase_db_name=_PURCHASE_DB_NAME,
-                 search_folder_name=_SEARCH_FOLDER, page_filename=_FILENAME, data_folder_name=_DATA_FOLDER,
+    def __init__(self, query, numFz, headers=None, purchase_db_name=_PURCHASE_DB_NAME,
+                 search_folder_name=_SEARCH_FOLDER_NAME, page_filename=_FILENAME, data_folder_name=_DATA_FOLDER,
                  default_tab=_TAB, len_lot_list=_LEN_LOT_LIST, lots_db_name=_LOTS_DB_NAME,
                  protocol_plug_link=_PROTOCOL_PLUG_LINK, search_page_url=_SEARCH_PAGE_URL, morfology=False,
                  proxy=False):
         self.__numFz = numFz
         self.__query = create_query(query)
 
-        self.__headers = headers
         self.__purchase_db_name = purchase_db_name
         self.__search_folder_name = search_folder_name
         self.__page_filename = page_filename
@@ -47,9 +46,14 @@ class Stub:
         self.__p_id_test = _P_ID_TEST[numFz]
 
         if morfology:
-            self.__morfology = _MORFOLOGY
+            self.__morphology = _MORPHOLOGY
         else:
-            self.__morfology = ""
+            self.__morphology = ""
+
+        if headers:
+            self.__headers = headers
+        else:
+            self.__headers = _HEADERS
 
         self.__establish_session(proxy)
 
@@ -95,7 +99,7 @@ class Stub:
 
     def get_query_dir(self):
         """
-        gets dir as "data/query/"
+        gets dir as "data/<query>/"
         :param q: query
         :return: directory
         """
@@ -116,7 +120,7 @@ class Stub:
         return self.get_purchase_link() % (self.get_numFz(), tab, p_id)
 
     def get_search_page_url(self, page_num):
-        return self.__search_page_url % (self.get_query(), self.__morfology, page_num, self.get_numFz())
+        return self.__search_page_url % (self.get_query(), self.__morphology, page_num, self.get_numFz())
 
     def get_p_id_test(self):
         return self.__p_id_test

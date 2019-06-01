@@ -5,7 +5,7 @@ import re
 from bs4 import BeautifulSoup
 
 from zakupkiClient.parserinterface import ParserInterface
-from zakupkiClient.util import _checkDirectory_if_not_create, saving, load_JSON_data
+from zakupkiClient.util import _check_directory_create
 from zakupkiClient.webutils import parse_search_page, load_search_page, contain_purchase_data
 
 
@@ -29,7 +29,7 @@ class Parser(ParserInterface):
         path = self.get_stub().get_search_folder_path()
         while page <= page_limit:
             logging.info('Loading page #%d' % (page))
-            _checkDirectory_if_not_create(path)
+            _check_directory_create(path)
             filepath = path + self.get_stub().get_page_filename()
             data = load_search_page(stub=self.get_stub(), p=page)
             if contain_purchase_data(data):
@@ -41,41 +41,19 @@ class Parser(ParserInterface):
                 break
 
     def parse_save_search_entries(self, page_limit, page_offset=1):
-        purchase_list = []
-        page = page_offset
+        page_n = page_offset
         filepath = self.get_stub().get_search_folder_path() + self.get_stub().get_page_filename()
         logging.info("Openning dir " + filepath)
-        while page <= page_limit:
-            filename = filepath % page
+        while page_n <= page_limit:
+            filename = filepath % page_n
             if os.path.isfile(filename):
-                res = parse_search_page(stub=self.get_stub(), filepath=filename)
-                purchase_list.extend(res)
-                page += 1
+                parse_search_page(stub=self.get_stub(), filepath=filename)
+                page_n += 1
             else:
                 logging.ERROR("No file " + filename)
                 break
 
-        saving(data=purchase_list, stub=self.get_stub(), filename=self.get_stub().get_purchase_db_name())
         logging.info('parse_save_search_entries done')
-
-    def create_save_lots(self, purchases=None):
-        if not purchases:
-            purchases = load_JSON_data(stub=self.get_stub(), filename=self.get_stub().get_purchase_db_name())
-        res_lots = []
-        for p in purchases:
-            if p['lots_num'] > 0:
-                for lot in p['lots']:
-                    lot["p_id"] = p['purchase_id']
-                    lot["date"] = p['date']
-                    logging.info("purchase #" + lot["p_id"])
-                    lot["buyer_name"] = p['fullName']
-                    lot["buyer_inn"] = p['inn']
-                    if p['inn']:
-                        lot['region'] = p['inn'][:2]
-                    else:
-                        lot['region'] = None
-                    res_lots.append(lot)
-        saving(data=res_lots, filename=self.get_stub().get_lots_db_name(), stub=self.get_stub())
 
     def get_stub(self):
         return self.__stub

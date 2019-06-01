@@ -36,7 +36,7 @@ class TestParser(object):
         parser = resource_setup
         stub = parser.get_stub()
         parser.parse_save_search_entries(page_limit=1)
-        lst = load_JSON_data(stub=stub, filename=stub.get_purchase_db_name())
+        lst = load_json_data(stub=stub, filename=stub.get_purchase_db_name())
         if len(lst) < 1:
             pytest.fail("no entries parsed")
         pass
@@ -48,14 +48,3 @@ class TestParser(object):
         if len(page) < 1:
             pytest.fail("no page parsed")
         pass
-
-    def test_create_save_lots(self, resource_setup):
-        parser = resource_setup
-        stub = parser.get_stub()
-        with open("data/dbtest.json", "r") as json_data:
-            data = json.load(json_data)
-        parser.create_save_lots(purchases=data)
-        res = load_JSON_data(stub=stub, filename=stub.get_lots_db_name())
-        with open("data/lottest.json", "r") as json_data:
-            ans = json.load(json_data)
-        assert res == ans
