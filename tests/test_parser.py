@@ -31,20 +31,21 @@ class TestParser(object):
         if not os.path.exists(path + "page_1.html"):
             pytest.fail("no file created in dir")
         pass
+    #TODO: tests
 
-    def test_parse_save_search_entries(self, resource_setup):
-        parser = resource_setup
-        stub = parser.get_stub()
-        parser.parse_save_search_entries(page_limit=1)
-        lst = load_json_data(stub=stub, filename=stub.get_purchase_db_name())
-        if len(lst) < 1:
-            pytest.fail("no entries parsed")
-        pass
-
-    def test_load_parse_purchase_page(self, resource_setup):
-        parser = resource_setup
-        stub = parser.get_stub()
-        page = load_parse_purchase_page(p_id="31807061497", stub=stub)
-        if len(page) < 1:
-            pytest.fail("no page parsed")
-        pass
+    # def test_parse_save_search_entries(self, resource_setup):
+    #     parser = resource_setup
+    #     stub = parser.get_stub()
+    #     parser.parse_save_search_entries(page_limit=1)
+    #     lst = load_json_data(stub=stub, filename=stub.get_purchase_db_name())
+    #     if len(lst) < 1:
+    #         pytest.fail("no entries parsed")
+    #     pass
+    #
+    # def test_load_parse_purchase_page(self, resource_setup):
+    #     parser = resource_setup
+    #     stub = parser.get_stub()
+    #     page = load_parse_purchase_page(p_id="31807061497", stub=stub)
+    #     if len(page) < 1:
+    #         pytest.fail("no page parsed")
+    #     pass
