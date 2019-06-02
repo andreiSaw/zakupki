@@ -22,30 +22,28 @@ def teardown_module(module):
 
 class TestParser(object):
     def test_search_save(self, resource_setup):
-        parser = resource_setup
-        stub = parser.get_stub()
-        parser.search_save(page_limit=1)
-        path = stub.get_search_folder_path()
+        parser2 = resource_setup
+        stub_entity = parser2.get_stub()
+        parser2.search_save(page_limit=1)
+        path = stub_entity.get_search_folder_path()
         if not os.path.exists(path):
             pytest.fail("no dir created")
         if not os.path.exists(path + "page_1.html"):
             pytest.fail("no file created in dir")
         pass
-    #TODO: tests
 
-    # def test_parse_save_search_entries(self, resource_setup):
-    #     parser = resource_setup
-    #     stub = parser.get_stub()
-    #     parser.parse_save_search_entries(page_limit=1)
-    #     lst = load_json_data(stub=stub, filename=stub.get_purchase_db_name())
-    #     if len(lst) < 1:
-    #         pytest.fail("no entries parsed")
-    #     pass
-    #
-    # def test_load_parse_purchase_page(self, resource_setup):
-    #     parser = resource_setup
-    #     stub = parser.get_stub()
-    #     page = load_parse_purchase_page(p_id="31807061497", stub=stub)
-    #     if len(page) < 1:
-    #         pytest.fail("no page parsed")
-    #     pass
+    def test_parse_save_search_entries(self, resource_setup):
+        parser1 = resource_setup
+        parser1.parse_save_search_entries(page_limit=1)
+        rs = DbApi().get('procurements')
+        if len(rs) < 10:
+            pytest.fail("no entries parsed")
+        pass
+
+    def test_load_parse_purchase_page(self, resource_setup):
+        parser = resource_setup
+        stub = parser.get_stub()
+        page = load_parse_purchase_page(p_id="31807061497", stub=stub)
+        if len(page) < 1:
+            pytest.fail("no page parsed")
+        pass
