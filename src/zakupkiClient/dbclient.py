@@ -24,11 +24,9 @@ class DbApi:
         except Exception as e:
             logging.warning(f'{db_name}{e}')
 
-        # def run(self):
-
     def get(self, db_name):
         try:
-            query = db.select(self.__db[db_name])
+            query = db.select([self.__db[db_name]])
             return self.__db_connection.execute(query)
         except Exception as e:
             logging.warning(f'{db_name}{e}')

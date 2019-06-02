@@ -36,7 +36,7 @@ class TestParser(object):
         parser1 = resource_setup
         parser1.parse_save_search_entries(page_limit=1)
         rs = DbApi().get('procurements')
-        if len(rs) < 10:
+        if rs.rowcount < 10:
             pytest.fail("no entries parsed")
         pass
 
