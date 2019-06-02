@@ -2,18 +2,26 @@
 # Fraud detection of government procurement in Russia
 ## term project 2018 - 2019
 ---
-run virtualenv
-```shell
-. ~/PycharmProjects/zakupki/venv/bin/activate
+install lib
+``` shell 
+pip install -e .
 ```
-Testing
+Test it
 ```shell
 ./run_test.sh
 ```
 OR
 ```shell
-cd tests/ && pytest -s -v test_poisk.py
+cd tests/ && pytest -s -v test_io.py
 ```
+migrate database `zakupki` 
+``` shell
+cd migrations/ && ./migrate.sh
+``` 
+drop database
+``` shell
+cd migrations/ && ./down.sh
+``` 
 If you want to activate proxy, you need to set up an environment variables 
 `PROXY_ZAKUPKI_HTTP` and `PROXY_ZAKUPKI_HTTPS` with you `host:port`
 # Version 1.0.1

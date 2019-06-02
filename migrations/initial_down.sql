@@ -1,5 +1,6 @@
-DROP bids if exists FROM bids;
-DELETE FROM lots;
-DELETE FROM procurements;
-DELETE FROM buyers;
-DELETE FROM suppliers;
+DROP TABLE if exists bids;
+DROP TABLE if exists lots;
+DROP TABLE if exists procurements;
+DROP TABLE if exists buyers;
+DROP TABLE if exists suppliers;
+DROP TABLE if exists regions;
