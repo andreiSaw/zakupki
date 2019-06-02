@@ -17,4 +17,4 @@ env:
 services:
   - postgresql
 before_script:
-  - psql -c 'create database zakupki;' -U postgres && ./migrate.sh
+  - ./migrate.sh
