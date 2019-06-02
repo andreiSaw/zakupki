@@ -7,7 +7,6 @@ from .textutils import (
     clear_text
 )
 from .util import (
-    load_json_data,
     read_file
 )
 from .webutils import (

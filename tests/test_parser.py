@@ -41,9 +41,9 @@ class TestParser(object):
         pass
 
     def test_load_parse_purchase_page(self, resource_setup):
-        parser = resource_setup
-        stub = parser.get_stub()
-        page = load_parse_purchase_page(p_id="31807061497", stub=stub)
+        parser3 = resource_setup
+        stub3 = parser3.get_stub()
+        page = load_parse_purchase_page(p_id="31807061497", stub=stub3)
         if len(page) < 1:
             pytest.fail("no page parsed")
         pass
