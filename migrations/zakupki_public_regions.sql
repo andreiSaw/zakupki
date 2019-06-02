@@ -268,3 +268,6 @@ VALUES ('97', 'Moscow', 'Central', 'Central
 ');
 INSERT INTO public.regions (code, name, "Federal district", "Economic region")
 VALUES ('00', 'Empty', 'Empty', 'Empty');
+INSERT INTO public.regions (code, name, "Federal district", "Economic region")
+VALUES ('91', 'Kaliningrad', 'Northwestern', 'Northwestern
+');

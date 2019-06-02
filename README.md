@@ -16,11 +16,11 @@ cd tests/ && pytest -s -v test_io.py
 ```
 migrate database `zakupki` 
 ``` shell
-cd migrations/ && ./migrate.sh
+./migrate.sh
 ``` 
 drop database
 ``` shell
-cd migrations/ && ./down.sh
+./down.sh
 ``` 
 If you want to activate proxy, you need to set up an environment variables 
 `PROXY_ZAKUPKI_HTTP` and `PROXY_ZAKUPKI_HTTPS` with you `host:port`
