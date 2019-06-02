@@ -17,3 +17,4 @@ cd tests/ && pytest -s -v test_poisk.py
 If you want to activate proxy, you need to set up an environment variables 
 `PROXY_ZAKUPKI_HTTP` and `PROXY_ZAKUPKI_HTTPS` with you `host:port`
 # Version 1.0.1
+`zakupki_public_regions.sql` was sourced from [here](https://www.datafix.io/data-source/2118/lists-of-rural-localities-in-russia-wikipedia/)
