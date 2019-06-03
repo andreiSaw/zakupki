@@ -10,7 +10,7 @@ It uses *postgresql* database
 pg_dump zakupki | gzip > zakupki.gz
 
 # dumps table from db
-pg_dump zakupki --table regions | gzip > zakupki.gz
+pg_dump zakupki --table regions | gzip > regions.gz
 
 # loads database from dump
 ./migrate.sh
