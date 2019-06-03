@@ -1,4 +1,3 @@
-import json
 import os
 import shutil
 
@@ -11,12 +10,12 @@ AG_NAME = "высшая школа экономики"
 
 @pytest.fixture(scope="module")
 def resource_setup(request):
-    return Parser(Stub(query=AG_NAME, numFz="223"))
+    return Parser(Stub(query=AG_NAME, numfz="223"))
 
 
 def teardown_module(module):
     print("\nmodule teardown")
-    stub4 = Stub(query=AG_NAME, numFz="223")
+    stub4 = Stub(query=AG_NAME, numfz="223")
     shutil.rmtree(stub4.get_query_dir())
 
 
@@ -40,10 +39,11 @@ class TestParser(object):
             pytest.fail("no entries parsed")
         pass
 
-    def test_load_parse_purchase_page(self, resource_setup):
+    def test_parse_purchase(self, resource_setup):
         parser3 = resource_setup
         stub3 = parser3.get_stub()
-        page = load_parse_purchase_page(p_id="31807061497", stub=stub3)
-        if len(page) < 1:
-            pytest.fail("no page parsed")
+        parse_purchase(p_id="31807061497", stub=stub3)
+        rs = DbApi().get('procurements')
+        if rs.rowcount < 1:
+            pytest.fail("no purchase parsed")
         pass

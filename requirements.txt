@@ -1,5 +1,4 @@
 jupyter
-pandas
 html5lib
 beautifulsoup4
 requests

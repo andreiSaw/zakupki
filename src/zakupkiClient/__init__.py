@@ -13,7 +13,7 @@ from .webutils import (
     load_page,
     load_search_page,
     contain_purchase_data,
-    load_parse_purchase_page,
+    parse_purchase,
     check_website_up
 )
 

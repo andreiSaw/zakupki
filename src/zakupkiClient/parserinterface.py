@@ -1,9 +1,9 @@
-class ParserInterface():
+class ParserInterface:
     __stub = None
 
     def search_save(self, p_limit, offset=1):
         """
-        Using webcrapping asks search engine to find query through pages_limit pages, and saves search pages
+        Using web scrapping asks search engine to find query through pages_limit pages, and saves search pages
         :param offset: page number to start with
         :param p_limit: number of pages to save
         """
@@ -16,23 +16,6 @@ class ParserInterface():
         """
         raise NotImplementedError()
 
-    def create_save_lots(self):
-        # TODO: add
-        """
-        :return: lots[]
-        """
-        raise NotImplementedError()
-
-    def get_vendors_save_lots(self, lots):
-        """
-
-        :param lots:
-        :return:
-        """
-        raise NotImplementedError()
-
     @property
     def get_stub(self):
         return self.__stub
-
-

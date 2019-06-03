@@ -12,14 +12,14 @@ AG_NAME = "Privet"
 
 def teardown_module(module):
     print("\nmodule teardown")
-    stub = Stub(query=AG_NAME, numFz="223")
+    stub = Stub(query=AG_NAME, numfz="223")
     shutil.rmtree(stub.get_query_dir())
     os.unlink("x.a")
 
 
 @pytest.fixture(scope="module")
 def resource_setup(request):
-    return Stub(query=AG_NAME, numFz="223")
+    return Stub(query=AG_NAME, numfz="223")
 
 
 def test_read_file():

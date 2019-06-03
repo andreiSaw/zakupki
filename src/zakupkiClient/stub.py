@@ -22,22 +22,22 @@ _MORPHOLOGY = "morphology=on"
 
 
 class Stub:
-    def __init__(self, query, numFz, headers=None, search_folder_name=_SEARCH_FOLDER_NAME, page_filename=_FILENAME,
+    def __init__(self, query, numfz, headers=None, search_folder_name=_SEARCH_FOLDER_NAME, page_filename=_FILENAME,
                  data_folder_name=_DATA_FOLDER, default_tab=_TAB, len_lot_list=_LEN_LOT_LIST,
                  protocol_plug_link=_PROTOCOL_PLUG_LINK, search_page_url=_SEARCH_PAGE_URL, morphology=False,
                  proxy=False):
-        self.__numFz = numFz
+        self.__numFz = numfz
         self.__query = create_query(query)
 
         self.__search_folder_name = search_folder_name
         self.__page_filename = page_filename
         self.__data_folder_name = data_folder_name
-        self.__purchase_link = _PURCHASE_INFO[numFz]
+        self.__purchase_link = _PURCHASE_INFO[numfz]
         self.__default_tab = default_tab
         self.__len_lot_list = len_lot_list
         self.__protocol_plug_link = protocol_plug_link
         self.__search_page_url = search_page_url
-        self.__p_id_test = _P_ID_TEST[numFz]
+        self.__p_id_test = _P_ID_TEST[numfz]
 
         if morphology:
             self.__morphology = _MORPHOLOGY
