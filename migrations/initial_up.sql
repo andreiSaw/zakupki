@@ -25,9 +25,7 @@ create table procurements
     constraint procurements_pk
       primary key,
   buyer_inn varchar not null,
-  date      timestamp,
-  lots_num  integer,
-  p_link    varchar not null
+  date      timestamp
 );
 create unique index procurements_p_id_uindex
   on procurements (p_id);
@@ -39,8 +37,7 @@ create table lots
   p_id         varchar not null,
   "initialSum" varchar,
   subject      varchar,
-  category     varchar,
-  num_bids     integer
+  category     varchar
 );
 create unique index lots_guid_uindex
   on lots (guid);
