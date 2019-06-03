@@ -17,4 +17,4 @@ env:
 services:
   - postgresql
 before_script:
-  - cd migrations && ./up.sh
+  - migrations/up.sh
