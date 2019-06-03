@@ -16,8 +16,8 @@ def resource_setup(request):
 
 def teardown_module(module):
     print("\nmodule teardown")
-    stub = Stub(query=AG_NAME, numFz="223")
-    shutil.rmtree(stub.get_query_dir())
+    stub4 = Stub(query=AG_NAME, numFz="223")
+    shutil.rmtree(stub4.get_query_dir())
 
 
 class TestParser(object):
