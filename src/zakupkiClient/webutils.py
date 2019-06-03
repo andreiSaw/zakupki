@@ -207,5 +207,4 @@ def parse_search_page(stub, filepath):
     purchase_list = soup.find('div', {'class': 'parametrs margBtm10'})
     items = purchase_list.find_all('div', {'class': ['registerBox registerBoxBank margBtm20']})
     for item in items:
-        ppp = parse_purchase(stub=stub, p_link=item.find('td', {'class': 'descriptTenderTd'}).find('a').get('href'))
-        print(ppp)
+        parse_purchase(stub=stub, p_link=item.find('td', {'class': 'descriptTenderTd'}).find('a').get('href'))

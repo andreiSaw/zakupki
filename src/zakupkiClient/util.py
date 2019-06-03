@@ -1,7 +1,12 @@
 import os
-
+import logging
+import logging.config
+from pathlib import Path
 
 ############ IO
+import sys
+
+
 def read_file(filepath):
     with open(filepath) as input_file:
         text = input_file.read()
@@ -19,6 +24,20 @@ def _check_directory_create(directory):
 
 ################ IO
 def set_proxies():
-    proxy_https = os.environ['PROXY_ZAKUPKI_HTTPS']
-    proxy_http = os.environ['PROXY_ZAKUPKI_HTTP']
-    return {'http': proxy_http, 'https': proxy_https}
+    try:
+        proxy_https = os.environ['PROXY_ZAKUPKI_HTTPS']
+        proxy_http = os.environ['PROXY_ZAKUPKI_HTTP']
+        return {'http': proxy_http, 'https': proxy_https}
+    except KeyError:
+        logging.error('no env vars set')
+        return None
+
+
+def set_logger():
+    logger_env = os.environ['PROXY_ZAKUPKI_HTTPS']
+    logging.config.fileConfig(Path.joinpath(get_project_root(), "logging_config.ini"),disable_existing_loggers=False)
+
+
+def get_project_root() -> Path:
+    """Returns project root folder."""
+    return Path(__file__).parent.parent.parent

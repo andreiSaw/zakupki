@@ -1,7 +1,7 @@
 import requests
 
 from zakupkiClient.webutils import create_query
-from zakupkiClient.util import set_proxies
+from zakupkiClient.util import set_proxies, set_logger
 
 _HEADERS = {
     'Referer': 'https://www.abc.com/',
@@ -50,6 +50,7 @@ class Stub:
             self.__headers = _HEADERS
 
         self.__establish_session(proxy)
+        set_logger()
 
     def get_session(self):
         return self.__s
