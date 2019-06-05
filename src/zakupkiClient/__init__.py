@@ -14,7 +14,8 @@ from .webutils import (
     load_search_page,
     contain_purchase_data,
     parse_purchase,
-    check_website_up
+    check_website_up,
+    parse_lots
 )
 
 from .dbclient import DbApi

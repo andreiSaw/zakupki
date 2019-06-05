@@ -34,8 +34,7 @@ def set_proxies():
 
 
 def set_logger():
-    logger_env = os.environ['PROXY_ZAKUPKI_HTTPS']
-    logging.config.fileConfig(Path.joinpath(get_project_root(), "logging_config.ini"),disable_existing_loggers=False)
+    logging.config.fileConfig(Path.joinpath(get_project_root(), "logging_config.ini"))
 
 
 def get_project_root() -> Path:

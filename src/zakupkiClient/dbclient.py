@@ -5,16 +5,16 @@ import sqlalchemy as db
 
 class DbApi:
     def __init__(self):
-        engine = db.create_engine('postgresql+psycopg2://postgres@localhost/zakupki')
+        self.__engine = db.create_engine('postgresql+psycopg2://postgres@localhost/zakupki')
 
-        self.__db_connection = engine.connect()
+        self.__db_connection = self.__engine.connect()
         metadata = db.MetaData()
 
-        self.__db = {'procurements': db.Table('procurements', metadata, autoload=True, autoload_with=engine),
-                     'buyers': db.Table('buyers', metadata, autoload=True, autoload_with=engine),
-                     'bids': db.Table('bids', metadata, autoload=True, autoload_with=engine),
-                     'lots': db.Table('lots', metadata, autoload=True, autoload_with=engine),
-                     'suppliers': db.Table('suppliers', metadata, autoload=True, autoload_with=engine)}
+        self.__db = {'procurements': db.Table('procurements', metadata, autoload=True, autoload_with=self.__engine),
+                     'buyers': db.Table('buyers', metadata, autoload=True, autoload_with=self.__engine),
+                     'bids': db.Table('bids', metadata, autoload=True, autoload_with=self.__engine),
+                     'lots': db.Table('lots', metadata, autoload=True, autoload_with=self.__engine),
+                     'suppliers': db.Table('suppliers', metadata, autoload=True, autoload_with=self.__engine)}
 
     def setup(self, db_name, value):
         try:
@@ -60,18 +60,29 @@ class DbApi:
 
         # print(procurement)
 
+        blackist_bids = ['supplier']
         blackist_lot = ['bids']
 
         for ll in values['lots']:
+            lot_bids = ll['bids']
             lot = {key: val for key, val in ll.items() if key not in blackist_lot}
             lot['p_id'] = procurement['p_id']
             self.setup('lots', lot)
             # print(lot)
+            for b in lot_bids:
+                bid = {key: val for key, val in b.items() if key not in blackist_bids}
+                bid['guid'] = lot['guid']
+                bid['supplier_inn'] = b['supplier']['inn']
+                self.setup('bids', bid)
+                print(bid)
 
-        blackist_bids = ['supplier']
+    def update(self, db_name, values, id):
+        try:
+            statement = 'UPDATE lots set category= \'%s\' where lots.guid = \'%s\''
+            return self.__db_connection.execute(statement % (values, id))
+        except Exception as e:
+            logging.warning(f'{db_name}{e}')
 
-        bids = [b for l in values['lots'] for b in l['bids']]
-        for b in bids:
-            bid = {key: val for key, val in b.items() if key not in blackist_bids}
-            self.setup('bids', bid)
-            # print(bid)
+    def update_lots(self, purchase):
+        for ll in purchase['lots']:
+            self.update('lots', ll['category'], ll['guid'])

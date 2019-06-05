@@ -1,5 +1,3 @@
-import logging
-
 from bs4 import BeautifulSoup
 
 from .textutils import *
@@ -103,7 +101,7 @@ def parse_xml_bid(soup):
     return bid_plug
 
 
-def parse_xml_applications(soup, guid):
+def parse_xml_applications(soup):
     bids = []
     applications = soup.findAll("ns2:application")
     no_of_participants = 0
@@ -115,7 +113,6 @@ def parse_xml_applications(soup, guid):
         else:
             one_bid['winnerIndication'] = False
         no_of_participants += 1
-        one_bid['guid'] = guid
         bids.append(one_bid)
     logging.info(f'no_of_participants {no_of_participants}')
     return bids
@@ -139,10 +136,49 @@ def parse_xml_lots(soup):
                 return None
             lot1[tag] = attrs.text
         lot1['subject'] = clear_text(lot1['subject'])
-        lot1['bids'] = parse_xml_applications(protocolLotApplications,
-                                              lot1['guid'])  # find applications data
+        lot1['bids'] = parse_xml_applications(protocolLotApplications)  # find applications data
         lots.append(lot1)
     return lots
+
+
+def parse_lots(stub, p_id):
+    """
+    Walk through purchase page and parse lots tab, get only that have category sequence in OKPD2 classifcation
+    :param p_id: purchase id
+    :param stub:
+    :return: dict {lots[],lots_num}
+    """
+    p_link = stub.get_purchase_tab(p_id=p_id, tab="lot-list")
+    page = load_page(stub=stub, p_link=p_link)
+    soup = BeautifulSoup(page, features="lxml")
+    lotable = soup.find('table', {'id': 'lot'})
+    if not lotable:
+        raise Exception("Site is down")
+    trs = lotable.find('tbody').find_all('tr')
+    lots_num, lots = 0, []
+    while True:
+        for row in trs:
+            cells = [el for el in row.find_all(['td', 'th']) if el.text]
+            if len(cells) == stub.get_len_lot_list():
+                tmp = clear_text(cells[1].find('a', {'class': "dLink epz_aware"}).text)
+                lots_num += 1
+                t = clear_text_from_xml(cells[4].text)
+
+                lot = {"name": tmp,
+                       "category": t[:t.find(" ")],
+                       'id': lots_num}
+                lots.append(lot)
+        rightArrow = soup.find('li', {'class': "rightArrow"})
+        if rightArrow:
+            soup = BeautifulSoup(load_page(stub, f"http://zakupki.gov.ru/{rightArrow.find('a').get('href')}"),
+                                 features="lxml")
+        else:
+            return lots
+
+
+def make_cat(lots, lots_cat):
+    for i, l in enumerate(lots):
+        l['category'] = lots_cat[i]['category']
 
 
 def parse_purchase(stub, **kwargs):
@@ -186,13 +222,13 @@ def parse_purchase(stub, **kwargs):
     lots = parse_xml_lots(soup)
 
     if lots:
+        make_cat(lots, parse_lots(stub, purchase_plug['p_id']))
         purchase_plug['lots'] = lots
     else:
         purchase_plug['lots'] = []
 
     logging.info(f"Done {purchase_plug['p_id']}")
-    # dump to database
-    DbApi().push(purchase_plug)
+    return purchase_plug
 
 
 def parse_search_page(stub, filepath):
@@ -207,4 +243,6 @@ def parse_search_page(stub, filepath):
     purchase_list = soup.find('div', {'class': 'parametrs margBtm10'})
     items = purchase_list.find_all('div', {'class': ['registerBox registerBoxBank margBtm20']})
     for item in items:
-        parse_purchase(stub=stub, p_link=item.find('td', {'class': 'descriptTenderTd'}).find('a').get('href'))
+        purchase_plug = parse_purchase(stub=stub,
+                                       p_link=item.find('td', {'class': 'descriptTenderTd'}).find('a').get('href'))
+        DbApi().push(purchase_plug)
