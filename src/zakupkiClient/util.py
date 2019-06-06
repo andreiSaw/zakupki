@@ -2,9 +2,11 @@ import os
 import logging
 import logging.config
 from pathlib import Path
+import pandas as pd
+from sklearn.feature_extraction.text import CountVectorizer
 
 ############ IO
-import sys
+from zakupkiClient.dbclient import DbApi
 
 
 def read_file(filepath):
@@ -34,9 +36,44 @@ def set_proxies():
 
 
 def set_logger():
-    logging.config.fileConfig(Path.joinpath(get_project_root(), "logging_config.ini"))
+    logging.config.fileConfig(Path.joinpath(get_project_root(), "logging_config.ini"),disable_existing_loggers=False)
 
 
 def get_project_root() -> Path:
     """Returns project root folder."""
     return Path(__file__).parent.parent.parent
+
+
+def create_word_cloud(lots_csv, freq_csv):
+    """
+    creates freq csv
+    :param freq_csv:
+    :param lots_csv:
+    :param out_csv:
+    """
+    DbApi().dump_table('lots', lots_csv)
+    df = pd.read_csv(lots_csv, header=None)
+    vectorizer = CountVectorizer(ngram_range=(1, 3), min_df=0.03)
+    cv_fit = vectorizer.fit_transform(df[3]).toarray()
+    s = set(zip(cv_fit.sum(axis=0), vectorizer.get_feature_names()))
+    b = pd.DataFrame(s, columns=['freq', 'token'])
+    b.index.name = 'id'
+    for i, x in b.iterrows():
+        d = x.to_dict()
+        d['id'] = i
+        DbApi().setup('freq', d)
+    b.to_csv(freq_csv)
+
+
+def create_word_table(lots_csv, freq_csv):
+    freqs = pd.read_csv(freq_csv)
+    df = pd.read_csv(lots_csv)
+    for i, row in freqs.iterrows():
+        for ix, r in df.iterrows():
+            if row['token'] in r[3]:
+                DbApi().setup('words',{'word_id': i, 'guid': r[0], 'num_words': r[3].count(row['token'])})
+
+
+def create_words_database(lots_csv, freq_csv):
+    create_word_cloud(lots_csv, freq_csv)
+    create_word_table(lots_csv, freq_csv)

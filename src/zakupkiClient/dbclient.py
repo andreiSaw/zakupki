@@ -4,7 +4,7 @@ import sqlalchemy as db
 
 
 class DbApi:
-    def __init__(self):
+    def __init__(self,logger=None):
         self.__engine = db.create_engine('postgresql+psycopg2://postgres@localhost/zakupki')
 
         self.__db_connection = self.__engine.connect()
@@ -14,21 +14,25 @@ class DbApi:
                      'buyers': db.Table('buyers', metadata, autoload=True, autoload_with=self.__engine),
                      'bids': db.Table('bids', metadata, autoload=True, autoload_with=self.__engine),
                      'lots': db.Table('lots', metadata, autoload=True, autoload_with=self.__engine),
-                     'suppliers': db.Table('suppliers', metadata, autoload=True, autoload_with=self.__engine)}
+                     'suppliers': db.Table('suppliers', metadata, autoload=True, autoload_with=self.__engine),
+                     'words': db.Table('words', metadata, autoload=True, autoload_with=self.__engine),
+                     'freq': db.Table('freq', metadata, autoload=True, autoload_with=self.__engine)
+                     }
+        self.logger = logger or logging.getLogger(__name__)
 
     def setup(self, db_name, value):
         try:
             query = db.insert(self.__db[db_name]).values(value)
             ResultProxy = self.__db_connection.execute(query)
         except Exception as e:
-            logging.warning(f'{db_name}{e}')
+            self.logger.warning(f'{db_name}{e}')
 
     def get(self, db_name):
         try:
             query = db.select([self.__db[db_name]])
             return self.__db_connection.execute(query)
         except Exception as e:
-            logging.warning(f'{db_name}{e}')
+            self.logger.warning(f'{db_name}{e}')
 
     def push(self, values):
         # print(values)
@@ -76,13 +80,20 @@ class DbApi:
                 self.setup('bids', bid)
                 print(bid)
 
-    def update(self, db_name, values, id):
+    def update(self, table_name, values, id):
         try:
             statement = 'UPDATE lots set category= \'%s\' where lots.guid = \'%s\''
             return self.__db_connection.execute(statement % (values, id))
         except Exception as e:
-            logging.warning(f'{db_name}{e}')
+            self.logger.warning(f'{table_name}{e}')
 
     def update_lots(self, purchase):
         for ll in purchase['lots']:
             self.update('lots', ll['category'], ll['guid'])
+
+    def dump_table(self, table_name, out_csv):
+        try:
+            statement = 'COPY %s TO \'%s\'DELIMITER \',\' CSV HEADER;'
+            return self.__db_connection.execute(statement % (table_name, out_csv))
+        except Exception as e:
+            self.logger.warning(f'{table_name}{e}')

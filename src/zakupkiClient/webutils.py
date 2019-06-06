@@ -1,14 +1,16 @@
 from bs4 import BeautifulSoup
-
 from .textutils import *
 from .util import *
 from .dbclient import DbApi
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 def check_website_up(stub):
     p_id = stub.get_p_id_test()
     url = stub.get_purchase_tab(p_id=p_id)
-    logging.info("loading  " + url)
+    logger.info("loading  " + url)
     page = load_page(stub=stub, p_link=url)
     soup = BeautifulSoup(page, features="lxml")
     infopage = soup.find('div', {'class': "contentTabBoxBlock"})

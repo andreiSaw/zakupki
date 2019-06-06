@@ -7,7 +7,8 @@ from .textutils import (
     clear_text
 )
 from .util import (
-    read_file
+    read_file,
+    create_words_database
 )
 from .webutils import (
     load_page,

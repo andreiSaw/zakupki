@@ -16,3 +16,10 @@ alter table bids
 alter table bids
   add constraint bids_suppliers_inn_fk
     foreign key (supplier_inn) references suppliers (inn);
+alter table freqs
+  add constraint table_name_pk
+    primary key (id);
+ALTER TABLE words
+  ADD PRIMARY KEY (guid, word_id);
+ALTER TABLE bids
+  ADD PRIMARY KEY (guid, bid_date, supplier_inn);

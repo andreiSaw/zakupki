@@ -50,3 +50,24 @@ create table bids
   supplier_inn       varchar,
   "winnerIndication" boolean not null
 );
+
+CREATE TABLE words
+(
+  guid
+    uuid not null ,
+  word_id
+    BIGINT not null ,
+  num_words
+    int
+);
+
+CREATE TABLE freqs
+(
+  id
+       BIGINT not null ,
+  freq int not null ,
+  token
+       varchar not null
+);
+create unique index table_name_column_1_uindex
+  on freqs (id);
