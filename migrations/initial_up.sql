@@ -61,7 +61,7 @@ CREATE TABLE words
     int
 );
 
-CREATE TABLE freqs
+CREATE TABLE freq
 (
   id
        BIGINT not null ,
@@ -70,4 +70,4 @@ CREATE TABLE freqs
        varchar not null
 );
 create unique index table_name_column_1_uindex
-  on freqs (id);
+  on freq (id);
