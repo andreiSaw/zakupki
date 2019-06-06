@@ -180,7 +180,8 @@ def parse_lots(stub, p_id):
 
 def make_cat(lots, lots_cat):
     for i, l in enumerate(lots):
-        l['category'] = lots_cat[i]['category']
+        if lots_cat[i]['category']:
+            l['category'] = lots_cat[i]['category']
 
 
 def parse_purchase(stub, **kwargs):
