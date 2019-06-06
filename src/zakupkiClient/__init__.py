@@ -4,7 +4,8 @@ from .textutils import (
     clear_text_from_xml,
     get_id_from_url,
     create_query,
-    clear_text
+    clear_text,
+    get_category_from_str,
 )
 from .util import (
     read_file,

@@ -4,7 +4,7 @@ import sqlalchemy as db
 
 
 class DbApi:
-    def __init__(self,logger=None):
+    def __init__(self, logger=None):
         self.__engine = db.create_engine('postgresql+psycopg2://postgres@localhost/zakupki')
 
         self.__db_connection = self.__engine.connect()
@@ -24,6 +24,7 @@ class DbApi:
         try:
             query = db.insert(self.__db[db_name]).values(value)
             ResultProxy = self.__db_connection.execute(query)
+            self.logger.info('inserted %s' % value)
         except Exception as e:
             self.logger.warning(f'{db_name}{e}')
 

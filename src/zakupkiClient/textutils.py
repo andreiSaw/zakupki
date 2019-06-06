@@ -1,5 +1,6 @@
 import re
 
+
 def clear_text_from_xml(content):
     tmp = content.replace("\n", u' ').replace("\t", u' ').replace("\r", u' ').replace(u'\xa0', u' ')
     tmp = re.sub(' +', ' ', tmp).lstrip().rstrip()
@@ -29,3 +30,9 @@ def create_query(content):
     :return: spaces are replaced with +
     """
     return u"+".join(content.split(u' '))
+
+
+def get_category_from_str(content):
+    m = re.search(r'\d\d(.\d(\d(.\d(\d(.\d\d\d)?)?)?)?)?', content)
+    if m:
+        return m.group(0)

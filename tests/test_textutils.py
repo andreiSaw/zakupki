@@ -31,3 +31,10 @@ def test_get_id_from_url():
     if test_id != "31704861041":
         pytest.fail("wrong answer")
     pass
+
+
+def test_get_category_from_str():
+    t1 = "49.41.1 Услуги по грузовым перевозкам автомобильным транспортом"  # p_id=31705231526
+    t2 = 'G УСЛУГИ ПО ОПТОВОЙ И РОЗНИЧНОЙ ТОРГОВЛЕ; УСЛУГИ ПО РЕМОНТУ АВТОТРАНСПОРТНЫХ СРЕДСТВ И МОТОЦИКЛОВ'  # p_id=31705732300
+    assert get_category_from_str(t1) == '49.41.1'
+    assert get_category_from_str(t2) is None

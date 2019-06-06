@@ -1,12 +1,15 @@
 import os
 import logging
 import logging.config
+import pickle
 from pathlib import Path
 import pandas as pd
 from sklearn.feature_extraction.text import CountVectorizer
 
 ############ IO
 from zakupkiClient.dbclient import DbApi
+
+logging.getLogger(__name__)
 
 
 def read_file(filepath):
@@ -36,12 +39,18 @@ def set_proxies():
 
 
 def set_logger():
-    logging.config.fileConfig(Path.joinpath(get_project_root(), "logging_config.ini"),disable_existing_loggers=False)
+    logging.config.fileConfig(Path.joinpath(get_project_root(), "logging_config.ini"), disable_existing_loggers=False)
 
 
 def get_project_root() -> Path:
     """Returns project root folder."""
     return Path(__file__).parent.parent.parent
+
+
+def get_list_from_pickle(filepath):
+    with open(filepath, 'rb') as fp:
+        logging.info('opened %s' % filepath)
+        return pickle.load(fp)
 
 
 def create_word_cloud(lots_csv, freq_csv):
@@ -53,7 +62,11 @@ def create_word_cloud(lots_csv, freq_csv):
     """
     DbApi().dump_table('lots', lots_csv)
     df = pd.read_csv(lots_csv, header=None)
-    vectorizer = CountVectorizer(ngram_range=(1, 3), min_df=0.03)
+    vectorizer = CountVectorizer(ngram_range=(1, 1),
+                                 min_df=0.02,
+                                 max_df=0.1,
+                                 stop_words=get_list_from_pickle(
+                                     Path.joinpath(get_project_root(), 'stop_words.pickle')))
     cv_fit = vectorizer.fit_transform(df[3]).toarray()
     s = set(zip(cv_fit.sum(axis=0), vectorizer.get_feature_names()))
     b = pd.DataFrame(s, columns=['freq', 'token'])
@@ -71,7 +84,10 @@ def create_word_table(lots_csv, freq_csv):
     for i, row in freqs.iterrows():
         for ix, r in df.iterrows():
             if row['token'] in r[3]:
-                DbApi().setup('words',{'word_id': i, 'guid': r[0], 'num_words': r[3].count(row['token'])})
+                DbApi().setup('words', {'word_id': i,
+                                        'guid': r[0],
+                                        'num_words': r[3].count(row['token'])
+                                        })
 
 
 def create_words_database(lots_csv, freq_csv):
