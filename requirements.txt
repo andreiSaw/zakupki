@@ -7,3 +7,4 @@ pytest
 lxml
 sqlalchemy
 psycopg2
+scikit-learn
