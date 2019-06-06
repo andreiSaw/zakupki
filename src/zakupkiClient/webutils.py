@@ -167,7 +167,7 @@ def parse_lots(stub, p_id):
                 t = clear_text_from_xml(cells[4].text)
 
                 lot = {"name": tmp,
-                       "category": t[:t.find(" ")],
+                       "category": get_category_from_str(t),
                        'id': lots_num}
                 lots.append(lot)
         rightArrow = soup.find('li', {'class': "rightArrow"})
