@@ -2,10 +2,12 @@ import logging
 
 import sqlalchemy as db
 
+from zakupkiClient import get_active_db
+
 
 class DbApi:
     def __init__(self, logger=None):
-        self.__engine = db.create_engine('postgresql+psycopg2://postgres@localhost/zakupki')
+        self.__engine = db.create_engine('postgresql+psycopg2://postgres@localhost/%s' % get_active_db())
 
         self.__db_connection = self.__engine.connect()
         metadata = db.MetaData()

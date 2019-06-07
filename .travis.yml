@@ -13,7 +13,7 @@ matrix:
       sudo: true
 env:
   matrix:
-    - PROXY_ZAKUPKI_HTTPS=127.0.0.1 PROXY_ZAKUPKI_HTTP=127.0.0.1
+    - PROXY_ZAKUPKI_HTTPS=127.0.0.1 PROXY_ZAKUPKI_HTTP=127.0.0.1 ZAKUPKI_ACTIVE_DB=zakupki
 services:
   - postgresql
 before_script:

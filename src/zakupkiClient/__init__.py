@@ -9,7 +9,8 @@ from .textutils import (
 )
 from .util import (
     read_file,
-    create_words_database
+    create_words_database,
+    get_active_db
 )
 from .webutils import (
     load_page,

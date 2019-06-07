@@ -93,3 +93,12 @@ def create_word_table(lots_csv, freq_csv):
 def create_words_database(lots_csv, freq_csv):
     create_word_cloud(lots_csv, freq_csv)
     create_word_table(lots_csv, freq_csv)
+
+
+def get_active_db():
+    try:
+        active_db = os.environ['ZAKUPKI_ACTIVE_DB']
+        active_db
+    except KeyError:
+        logging.error('no env vars set')
+        return None
