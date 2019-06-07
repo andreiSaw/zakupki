@@ -21,11 +21,14 @@ create unique index buyers_inn_uindex
 
 create table procurements
 (
-  p_id      varchar not null
-    constraint procurements_pk
-      primary key,
-  buyer_inn varchar not null,
-  date      timestamp
+  p_id       varchar                             not null,
+  buyer_inn  varchar,
+  date       timestamp,
+  id_sposob  integer    default 0,
+  status     varchar,
+  obfuscated obfuscated default 'OK'::obfuscated not null,
+  result     status     default 'OK'::status     not null,
+  num_lots   integer    default 0                not null
 );
 create unique index procurements_p_id_uindex
   on procurements (p_id);

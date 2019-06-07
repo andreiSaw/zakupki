@@ -1,4 +1,8 @@
-psql -c 'create database zakupki;' -U postgres
-psql -d zakupki -a -f initial_up.sql
-gunzip -c regions.gz | psql zakupki
-psql -d zakupki -a -f add_constraints.sql
+#!/bin/bash
+createdb $ZAKUPKI_ACTIVE_DB
+psql -d $ZAKUPKI_ACTIVE_DB -a -f add_enums.sql
+psql -d $ZAKUPKI_ACTIVE_DB -a -f initial_up.sql
+gunzip -c regions.gz | psql $ZAKUPKI_ACTIVE_DB
+gunzip -c cats.gz | psql $ZAKUPKI_ACTIVE_DB
+gunzip -c sposobs.gz | psql $ZAKUPKI_ACTIVE_DB
+psql -d $ZAKUPKI_ACTIVE_DB -a -f add_constraints.sql

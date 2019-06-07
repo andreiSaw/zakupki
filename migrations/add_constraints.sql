@@ -10,10 +10,16 @@ alter table suppliers
 alter table procurements
   add constraint procurements_buyers_inn_fk
     foreign key (buyer_inn) references buyers (inn);
+alter table procurements
+  add constraint procurements_sposobs_id_sposob_fk
+    foreign key (id_sposob) references sposobs (id_sposob);
 -- lots
 alter table lots
   add constraint lots_procurements_p_id_fk
     foreign key (p_id) references procurements (p_id);
+alter table lots
+  add constraint lots_cats_kod_fk
+    foreign key (category) references cats (kod);
 --bids
 alter table bids
   add constraint bids_lots_guid_fk
