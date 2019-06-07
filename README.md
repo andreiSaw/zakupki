@@ -7,6 +7,7 @@
 **HOW TO**
 
 1. install lib with `pip install -e .`
+2. Setup env veriable `ZAKUPKI_ACTIVE_DB` with `export ZAKUPKI_ACTIVE_DB='zakupki'`
 2. Test it
 
     <!-- language: shell--> 

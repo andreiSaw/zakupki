@@ -4,4 +4,7 @@ DROP TABLE if exists procurements;
 DROP TABLE if exists buyers;
 DROP TABLE if exists suppliers;
 DROP TABLE if exists regions;
-drop database zakupki;
+DROP TABLE if exists cats;
+DROP TABLE if exists words;
+DROP TABLE if exists freq;
+DROP TABLE if exists sposobs;

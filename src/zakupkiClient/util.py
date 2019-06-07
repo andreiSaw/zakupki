@@ -98,7 +98,7 @@ def create_words_database(lots_csv, freq_csv):
 def get_active_db():
     try:
         active_db = os.environ['ZAKUPKI_ACTIVE_DB']
-        active_db
+        return active_db
     except KeyError:
         logging.error('no env vars set')
         return None
