@@ -40,7 +40,8 @@ create table lots
   p_id         varchar not null,
   "initialSum" varchar,
   subject      varchar,
-  category     varchar
+  category     varchar,
+  num_bids     integer
 );
 create unique index lots_guid_uindex
   on lots (guid);
@@ -57,9 +58,9 @@ create table bids
 CREATE TABLE words
 (
   guid
-    uuid not null ,
+    uuid   not null,
   word_id
-    BIGINT not null ,
+    BIGINT not null,
   num_words
     int
 );
@@ -67,8 +68,8 @@ CREATE TABLE words
 CREATE TABLE freq
 (
   id
-       BIGINT not null ,
-  freq int not null ,
+       BIGINT  not null,
+  freq int     not null,
   token
        varchar not null
 );

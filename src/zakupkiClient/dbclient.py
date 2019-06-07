@@ -2,7 +2,7 @@ import logging
 
 import sqlalchemy as db
 
-from zakupkiClient import get_active_db
+from zakupkiClient.util import get_active_db
 
 
 class DbApi:
