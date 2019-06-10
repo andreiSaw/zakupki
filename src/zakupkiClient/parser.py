@@ -4,8 +4,9 @@ import re
 
 from bs4 import BeautifulSoup
 
+from zakupkiClient.db_util import create_word_table, create_word_cloud
 from zakupkiClient.parserinterface import ParserInterface
-from zakupkiClient.util import _check_directory_create, create_word_cloud
+from zakupkiClient.util import _check_directory_create
 from zakupkiClient.webutils import parse_search_page, load_search_page, contain_purchase_data
 
 
@@ -56,8 +57,10 @@ class Parser(ParserInterface):
 
         self.logger.info('parse_save_search_entries done')
 
-    def create_word_freq(self):
-        create_word_cloud('/Users/macbook/Devel/zakupki/lots3.csv', '/Users/macbook/Devel/zakupki/freq.csv')
+    @staticmethod
+    def create_words_database(lots_csv, freq_csv,active_db=None):
+        create_word_cloud(lots_csv, freq_csv, active_db)
+        create_word_table(lots_csv, freq_csv, active_db)
 
     def get_stub(self):
         return self.__stub

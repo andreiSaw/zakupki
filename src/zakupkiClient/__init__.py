@@ -9,8 +9,12 @@ from .textutils import (
 )
 from .util import (
     read_file,
-    create_words_database,
-    get_active_db
+    get_active_db,
+StemmedCountVectorizer
+)
+from .db_util import (
+    create_word_table,
+    create_word_cloud
 )
 from .webutils import (
     load_page,

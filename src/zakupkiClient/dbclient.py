@@ -6,8 +6,10 @@ from zakupkiClient.util import get_active_db
 
 
 class DbApi:
-    def __init__(self, logger=None):
-        self.__engine = db.create_engine('postgresql+psycopg2://postgres@localhost/%s' % get_active_db())
+    def __init__(self, logger=None, active_db=None):
+        if not active_db:
+            active_db = get_active_db()
+        self.__engine = db.create_engine('postgresql+psycopg2://postgres@localhost/%s' % active_db)
 
         self.__db_connection = self.__engine.connect()
         metadata = db.MetaData()

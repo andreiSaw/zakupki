@@ -1,3 +1,4 @@
+nltk
 jupyter
 pandas
 html5lib

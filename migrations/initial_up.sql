@@ -1,14 +1,3 @@
-create table suppliers
-(
-  inn    varchar not null
-    constraint suppliers_pk
-      primary key,
-  name   varchar,
-  region varchar
-);
-create unique index suppliers_inn_uindex
-  on suppliers (inn);
-
 create table buyers
 (
   inn        varchar not null
@@ -35,13 +24,13 @@ create unique index procurements_p_id_uindex
 
 create table lots
 (
-  guid         uuid    not null
+  guid         uuid              not null
     constraint lots_pk primary key,
-  p_id         varchar not null,
+  p_id         varchar           not null,
   "initialSum" varchar,
   subject      varchar,
   category     varchar,
-  num_bids     integer
+  num_bids     integer default 0 not null
 );
 create unique index lots_guid_uindex
   on lots (guid);
@@ -52,7 +41,8 @@ create table bids
   bid_date           timestamp,
   price              varchar,
   supplier_inn       varchar,
-  "winnerIndication" boolean not null
+  "winnerIndication" boolean not null,
+  bid_id             varchar
 );
 
 CREATE TABLE words
